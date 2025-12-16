@@ -948,6 +948,7 @@ name = "lib"
 version = "0.1.0"
 dependencies = [
  "dotenvy",
+ "serde",
  "sqlx",
 ]
 
