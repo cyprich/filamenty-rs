@@ -1,37 +1,28 @@
-use actix_web::{App, HttpResponse, HttpServer, Responder, get, middleware::NormalizePath, web};
+use std::env;
 
-#[get("")]
-async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
-}
+use crate::endpoints::*;
+use actix_web::{App, HttpServer, middleware::NormalizePath, web};
 
-#[get("/filaments")]
-async fn get_filaments() -> impl Responder {
-    HttpResponse::NotImplemented()
-}
-
-#[get("/filaments/{id}")]
-async fn get_filaments_by_id(id: web::Path<usize>) -> impl Responder {
-    HttpResponse::NotImplemented()
-}
-
-#[get("/info")]
-async fn info() -> impl Responder {
-    HttpResponse::NotImplemented()
-}
+mod endpoints;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
+    let pool = lib::db::create_pool().await;
+
+    HttpServer::new(move || {
         App::new()
             .wrap(NormalizePath::new(
                 actix_web::middleware::TrailingSlash::Trim,
             ))
+            .app_data(web::Data::new(pool.clone()))
             .service(
                 web::scope("/api/v2")
                     .service(hello)
                     .service(get_filaments)
                     .service(get_filaments_by_id)
+                    .service(get_materials)
+                    .service(get_vendors)
+                    .service(get_productlines)
                     .service(info),
             )
     })
