@@ -6,8 +6,13 @@ async fn hello() -> impl Responder {
 }
 
 #[get("/filaments")]
-async fn get_filaments() -> impl Responder {
-    HttpResponse::NotImplemented()
+async fn get_filaments(pool: web::Data<lib::Pool>) -> impl Responder {
+    let filaments = lib::db::get_filaments(pool.get_ref()).await;
+
+    match filaments {
+        Ok(val) => HttpResponse::Ok().json(val),
+        Err(val) => HttpResponse::InternalServerError().json(val.to_string()),
+    }
 }
 
 #[get("/filaments/{id}")]
@@ -35,9 +40,14 @@ async fn get_vendors(pool: web::Data<lib::Pool>) -> impl Responder {
     }
 }
 
-#[get("/productlines")]
-async fn get_productlines() -> impl Responder {
-    HttpResponse::NotImplemented()
+#[get("/products")]
+async fn get_productlines(pool: web::Data<lib::Pool>) -> impl Responder {
+    let products = lib::db::get_products(pool.get_ref()).await;
+
+    match products {
+        Ok(val) => HttpResponse::Ok().json(val),
+        Err(val) => HttpResponse::InternalServerError().json(val.to_string()),
+    }
 }
 
 #[get("/info")]

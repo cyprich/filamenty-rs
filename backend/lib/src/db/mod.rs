@@ -3,7 +3,7 @@ use std::env;
 use dotenvy::dotenv;
 use sqlx::postgres::PgPoolOptions;
 
-use crate::{Material, Vendor};
+use crate::{Filament, Material, Product, Vendor};
 
 pub mod models;
 
@@ -27,6 +27,18 @@ pub async fn get_materials(pool: &Pool) -> Result<Vec<Material>, sqlx::Error> {
 
 pub async fn get_vendors(pool: &Pool) -> Result<Vec<Vendor>, sqlx::Error> {
     sqlx::query_as::<_, Vendor>("select * from vendor")
+        .fetch_all(pool)
+        .await
+}
+
+pub async fn get_products(pool: &Pool) -> Result<Vec<Product>, sqlx::Error> {
+    sqlx::query_as::<_, Product>("select * from product")
+        .fetch_all(pool)
+        .await
+}
+
+pub async fn get_filaments(pool: &Pool) -> Result<Vec<Filament>, sqlx::Error> {
+    sqlx::query_as::<_, Filament>("select * from filament")
         .fetch_all(pool)
         .await
 }

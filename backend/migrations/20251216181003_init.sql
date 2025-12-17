@@ -7,10 +7,10 @@
 -- drop domain if exists temperature_celsius;
 -- drop domain if exists grams;
 
-create domain grams as numeric(4)
+create domain grams as integer
 check (VALUE >= 0);
 
-create domain temperature_celsius as numeric(3)
+create domain temperature_celsius as integer
 check (VALUE >= 0);
 
 create table vendor (
@@ -30,7 +30,7 @@ create table product (
     id_vendor int not null,
     id_material int not null,
     name_product varchar(50) not null,
-    diameter numeric(3, 2) default 1.75 not null,
+    diameter float default 1.75 not null,
     temp_min temperature_celsius not null,
     temp_max temperature_celsius,
     temp_bed_min temperature_celsius not null,
@@ -43,12 +43,12 @@ create table product (
 create table filament (
     id_filament serial primary key,
     id_product int not null,
-    price numeric(5,2) not null,
+    price float not null,
     color_name varchar(50) not null,
     color_hex char(7) not null,
     original_weight grams default 1000,
     netto_weight grams not null,
     spool_weight grams not null,
-    last_update timestamp default now(),
+    last_update timestamp default now() not null,
     foreign key (id_product) references product (id_product)
 );
