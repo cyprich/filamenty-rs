@@ -3,11 +3,13 @@ use std::env;
 use dotenvy::dotenv;
 use sqlx::postgres::PgPoolOptions;
 
-use crate::{Filament, Material, Product, Vendor};
+use crate::{Filament, FilamentFull, Material, Product, ProductFull, Vendor};
 
 pub mod models;
 
 pub type Pool = sqlx::Pool<sqlx::Postgres>;
+
+// GENERAL //
 
 pub async fn create_pool() -> Pool {
     dotenv().ok();
@@ -19,26 +21,84 @@ pub async fn create_pool() -> Pool {
     }
 }
 
-pub async fn get_materials(pool: &Pool) -> Result<Vec<Material>, sqlx::Error> {
+// MATERIALS //
+
+pub async fn get_materials(pool: &Pool) -> Result<Vec<Material>, crate::Error> {
     sqlx::query_as::<_, Material>("select * from material")
         .fetch_all(pool)
         .await
+        .map_err(|_| crate::Error::DatabaseError)
 }
 
-pub async fn get_vendors(pool: &Pool) -> Result<Vec<Vendor>, sqlx::Error> {
+// VENDORS //
+
+pub async fn get_vendors(pool: &Pool) -> Result<Vec<Vendor>, crate::Error> {
     sqlx::query_as::<_, Vendor>("select * from vendor")
         .fetch_all(pool)
         .await
+        .map_err(|_| crate::Error::DatabaseError)
 }
 
-pub async fn get_products(pool: &Pool) -> Result<Vec<Product>, sqlx::Error> {
+// PRODUCTS //
+
+pub async fn get_products(pool: &Pool) -> Result<Vec<Product>, crate::Error> {
     sqlx::query_as::<_, Product>("select * from product")
         .fetch_all(pool)
         .await
+        .map_err(|_| crate::Error::DatabaseError)
 }
 
-pub async fn get_filaments(pool: &Pool) -> Result<Vec<Filament>, sqlx::Error> {
+pub async fn get_products_full(pool: &Pool) -> Result<Vec<ProductFull>, crate::Error> {
+    sqlx::query_as::<_, ProductFull>(
+        r#"
+    select * from product
+    join vendor using (id_vendor) 
+    join material using (id_material)
+    "#,
+    )
+    .fetch_all(pool)
+    .await
+    .map_err(|_| crate::Error::DatabaseError)
+}
+
+// FILAMENTS //
+
+pub async fn get_filaments(pool: &Pool) -> Result<Vec<Filament>, crate::Error> {
     sqlx::query_as::<_, Filament>("select * from filament")
         .fetch_all(pool)
         .await
+        .map_err(|_| crate::Error::DatabaseError)
+}
+
+pub async fn get_filaments_full(pool: &Pool) -> Result<Vec<FilamentFull>, crate::Error> {
+    sqlx::query_as::<_, FilamentFull>(
+        r#"
+    select * from filament
+    join product using (id_product)
+    join vendor using (id_vendor) 
+    join material using (id_material)
+    "#,
+    )
+    .fetch_all(pool)
+    .await
+    .map_err(|_| crate::Error::DatabaseError)
+}
+
+pub async fn get_filaments_by_id(pool: &Pool, id: i32) -> Result<FilamentFull, crate::Error> {
+    sqlx::query_as::<_, FilamentFull>(
+        r#"
+    select * from filament
+    join product using (id_product)
+    join vendor using (id_vendor) 
+    join material using (id_material)
+    where id_filament = $1
+    "#,
+    )
+    .bind(id)
+    .fetch_one(pool)
+    .await
+    .map_err(|err| match err {
+        sqlx::Error::RowNotFound => crate::Error::NotFound,
+        _ => crate::Error::DatabaseError,
+    })
 }
