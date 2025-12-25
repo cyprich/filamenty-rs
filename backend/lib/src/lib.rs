@@ -1,4 +1,5 @@
 pub mod db;
+pub mod qr;
 
 pub use crate::db::Pool;
 
@@ -9,6 +10,7 @@ pub use crate::db::models::Product;
 pub use crate::db::models::ProductFull;
 pub use crate::db::models::Vendor;
 
+#[derive(Debug)]
 pub enum Error {
     DatabaseError,
     NotFound,
