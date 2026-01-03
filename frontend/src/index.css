@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+* {
+    font-family: sans-serif;
+    scroll-behavior: smooth;
+    transition: all 0.2s ease 0s;
+}
+
+/*----------  ELEMENTS ---------- */
+
+h1 {
+    @apply font-bold text-[4rem] portrait:text-[2.5rem];
+}
+
+h2 {
+    @apply text-[1.5rem]
+}
+
+h3 {
+    @apply text-[1.25rem]
+}
+
+button {
+    @apply bg-zinc-200 px-4 py-2;
+}
+
+header p {
+    @apply text-zinc-50 font-medium decoration-0 p-2 cursor-pointer select-none
+}
+
+footer {
+    h3, p, a {
+        @apply text-zinc-400 decoration-0 font-light portrait:text-sm;
+    }
+
+    a:hover {
+        @apply text-zinc-300;
+    }
+}
+
+/*---------- GENERAL CLASSES ---------- */
+
+.main {
+    @apply p-20 min-h-256 portrait:p-10;
+}
+
+.icon {
+    @apply w-9 h-9 p-1;
+}
+
+.clickable {
+    @apply cursor-pointer hover:scale-115 active:scale-85;
+}
+
+.clickable-small {
+    @apply cursor-pointer hover:scale-105 active:scale-95;
+}
+
+div.custom-border {
+    @apply shadow-lg;
+}
+
+.custom-border {
+    @apply rounded-tl-4xl rounded-br-4xl;
+
+    img {
+        border-radius: inherit;
+    }
+}
+
+/*---------- SPECIFIC CLASSES ---------- */
+
+.info-table {
+    td:first-child {
+        @apply pr-3 portrait:pr-2;
+    }
+}
+
+.filament .info-table {
+    tr:nth-child(even) {
+        @apply bg-zinc-200;
+    }
+
+    td {
+        @apply px-4 py-4 portrait:px-2;
+    }
+}
+
+.add-filament {
+    tr:nth-child(even) {
+        @apply bg-zinc-200;
+    }
+
+    td {
+        @apply pl-4 portrait:text-start;
+    }
+
+    td:has(input) {
+        @apply flex items-center gap-2 p-2;
+
+        button {
+            @apply w-10 h-10;
+        }
+    }
+
+    input {
+        @apply w-full p-1 outline-none
+    }
+
+    input[type="color"] {
+        @apply h-10
+    }
+
+    input:not([type="color"]) {
+        @apply border border-zinc-500;
+    }
+}
+
+.labels table td {
+    @apply portrait:text-sm;
+}
+
+/*---------- PRINT MEDIA ---------- */
+
+@media print {
+    @page {
+        margin: 1cm;
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header, footer {
+        display: none !important;
+    }
+
+    .no-print, .no-print * {
+        display: none !important;
+    }
+
+    .no-break {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .main {
+        padding: 0 !important;
+    }
+}
