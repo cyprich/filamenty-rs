@@ -24,13 +24,14 @@ async fn main() -> std::io::Result<()> {
                     .service(get_filaments_full)
                     .service(get_filaments_by_id)
                     .service(get_materials)
-                    .service(delete_materials_by_id)
                     .service(get_vendors)
                     .service(get_products)
                     .service(get_products_full)
                     .service(delete_filaments_by_id)
-                    .service(image)
-                    .service(info),
+                    .service(delete_materials_by_id)
+                    .service(delete_vendors_by_id)
+                    .service(delete_products_by_id)
+                    .service(image),
             )
     })
     .bind(("127.0.0.1", 5000))?

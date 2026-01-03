@@ -111,8 +111,3 @@ async fn image(name: web::Path<String>) -> actix_web::Result<NamedFile> {
 
     Ok(NamedFile::open(path)?)
 }
-
-#[get("/info")]
-async fn info() -> impl Responder {
-    HttpResponse::NotImplemented()
-}
