@@ -21,6 +21,27 @@ pub async fn create_pool() -> Pool {
     }
 }
 
+async fn general_delete_by_id(pool: &Pool, id: i32, what: &str) -> Result<bool, crate::Error> {
+    let query = format!("delete from {what} where id_{what} = $1");
+    let result = sqlx::query(&query).bind(id).execute(pool).await;
+
+    // error code 23503 = referential integrity
+
+    match result {
+        Ok(val) => Ok(val.rows_affected() != 0),
+        Err(val) => {
+            if let sqlx::Error::Database(err) = val
+                && err.code().is_some()
+                && err.code().unwrap() == "23503"
+            {
+                Err(crate::Error::DatabaseReferentialIntegrity)
+            } else {
+                Err(crate::Error::DatabaseError)
+            }
+        }
+    }
+}
+
 // MATERIALS //
 
 pub async fn get_materials(pool: &Pool) -> Result<Vec<Material>, crate::Error> {
@@ -30,6 +51,10 @@ pub async fn get_materials(pool: &Pool) -> Result<Vec<Material>, crate::Error> {
         .map_err(|_| crate::Error::DatabaseError)
 }
 
+pub async fn delete_material_by_id(pool: &Pool, id: i32) -> Result<bool, crate::Error> {
+    general_delete_by_id(pool, id, "material").await
+}
+
 // VENDORS //
 
 pub async fn get_vendors(pool: &Pool) -> Result<Vec<Vendor>, crate::Error> {
@@ -37,6 +62,10 @@ pub async fn get_vendors(pool: &Pool) -> Result<Vec<Vendor>, crate::Error> {
         .fetch_all(pool)
         .await
         .map_err(|_| crate::Error::DatabaseError)
+}
+
+pub async fn delete_vendor_by_id(pool: &Pool, id: i32) -> Result<bool, crate::Error> {
+    general_delete_by_id(pool, id, "vendor").await
 }
 
 // PRODUCTS //
@@ -59,6 +88,10 @@ pub async fn get_products_full(pool: &Pool) -> Result<Vec<ProductFull>, crate::E
     .fetch_all(pool)
     .await
     .map_err(|_| crate::Error::DatabaseError)
+}
+
+pub async fn delete_product_by_id(pool: &Pool, id: i32) -> Result<bool, crate::Error> {
+    general_delete_by_id(pool, id, "vendor").await
 }
 
 // FILAMENTS //
@@ -101,4 +134,8 @@ pub async fn get_filaments_by_id(pool: &Pool, id: i32) -> Result<FilamentFull, c
         sqlx::Error::RowNotFound => crate::Error::NotFound,
         _ => crate::Error::DatabaseError,
     })
+}
+
+pub async fn delete_filament_by_id(pool: &Pool, id: i32) -> Result<bool, crate::Error> {
+    general_delete_by_id(pool, id, "vendor").await
 }

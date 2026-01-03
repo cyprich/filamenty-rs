@@ -14,6 +14,7 @@ pub use crate::db::models::Vendor;
 pub enum Error {
     DatabaseError,
     NotFound,
+    DatabaseReferentialIntegrity,
 }
 
 impl std::fmt::Display for Error {
@@ -21,6 +22,9 @@ impl std::fmt::Display for Error {
         match &self {
             Error::DatabaseError => write!(f, "Error while communicating with database"),
             Error::NotFound => write!(f, "Not Found"),
+            Error::DatabaseReferentialIntegrity => {
+                write!(f, "Error with referential integrity in database")
+            }
         }
     }
 }
