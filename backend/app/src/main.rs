@@ -20,18 +20,18 @@ async fn main() -> std::io::Result<()> {
             .service(
                 web::scope("/api/v2")
                     .service(hello)
+                    .service(get_vendors)
+                    .service(get_materials)
+                    .service(get_products)
+                    .service(get_products_full)
                     .service(get_filaments)
                     .service(get_filaments_full)
                     .service(get_filaments_by_id)
-                    .service(get_materials)
-                    .service(get_vendors)
-                    .service(get_products)
-                    .service(get_products_full)
-                    .service(delete_filaments_by_id)
-                    .service(delete_materials_by_id)
                     .service(delete_vendors_by_id)
+                    .service(delete_materials_by_id)
                     .service(delete_products_by_id)
-                    .service(image),
+                    .service(delete_filaments_by_id)
+                    .service(images),
             )
     })
     .bind(("127.0.0.1", 5000))?
