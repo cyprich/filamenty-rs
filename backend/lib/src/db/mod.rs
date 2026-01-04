@@ -40,12 +40,16 @@ fn handle_general_result(result: Result<PgQueryResult, sqlx::Error>) -> Result<(
             if let sqlx::Error::Database(err) = val
                 && err.code().is_some()
             {
+                // error code 23502 = violates null constraint
                 // error code 23503 = referential integrity
                 // error code 23505 = duplicate key
+                // error code 42P01 = relation does not exist
 
                 match err.code().unwrap().trim() {
+                    "23502" => Err(crate::Error::DatabaseNullConstraint),
                     "23503" => Err(crate::Error::DatabaseReferentialIntegrity),
                     "23505" => Err(crate::Error::DatabaseDuplicate),
+                    "42P01" => Err(crate::Error::DatabaseRelationNotExist),
                     _ => Err(crate::Error::DatabaseError),
                 }
             } else {
@@ -133,33 +137,6 @@ pub async fn get_filaments_by_id(pool: &Pool, id: i32) -> Result<FilamentFull, c
     })
 }
 
-// //////////////////
-// DELETE REQUESTS //
-// //////////////////
-
-async fn general_delete_by_id(pool: &Pool, id: i32, what: &str) -> Result<(), crate::Error> {
-    let query = format!("delete from {what} where id_{what} = $1");
-    let result = sqlx::query(&query).bind(id).execute(pool).await;
-
-    handle_general_result(result)
-}
-
-pub async fn delete_vendors_by_id(pool: &Pool, id: i32) -> Result<(), crate::Error> {
-    general_delete_by_id(pool, id, "vendor").await
-}
-
-pub async fn delete_materials_by_id(pool: &Pool, id: i32) -> Result<(), crate::Error> {
-    general_delete_by_id(pool, id, "material").await
-}
-
-pub async fn delete_products_by_id(pool: &Pool, id: i32) -> Result<(), crate::Error> {
-    general_delete_by_id(pool, id, "vendor").await
-}
-
-pub async fn delete_filaments_by_id(pool: &Pool, id: i32) -> Result<(), crate::Error> {
-    general_delete_by_id(pool, id, "vendor").await
-}
-
 // ////////////////
 // POST REQUESTS //
 // ////////////////
@@ -226,6 +203,73 @@ values ($1, $2, $3, $4, $5, $6, $7)"#;
         .bind(filament.spool_weight)
         .execute(pool)
         .await;
+
+    handle_general_result(result)
+}
+
+// //////////////////
+// DELETE REQUESTS //
+// //////////////////
+
+pub async fn general_delete_by_id(
+    pool: &Pool,
+    table: &str,
+    id_name: &str,
+    id_value: i32,
+) -> Result<(), crate::Error> {
+    let query = format!("delete from {table} where {id_name} = $1");
+
+    let result = sqlx::query(&query).bind(id_value).execute(pool).await;
+
+    handle_general_result(result)
+}
+
+// /////////////////
+// PATCH REQUESTS //
+// /////////////////
+
+pub async fn general_patch(
+    pool: &Pool,
+    table: &str,
+    variable_name: &str,
+    variable_value: Option<&str>,
+    id_name: &str,
+    id_value: i32,
+    valid_variable_names: Vec<&str>,
+) -> Result<(), crate::Error> {
+    if !valid_variable_names.contains(&variable_name) {
+        return Err(crate::Error::DatabaseInvalidValue);
+    }
+
+    let variable_value = variable_value.unwrap_or("null");
+
+    let variable_type = match variable_name {
+        val if val.contains("name") => "text",
+        "diameter" => "float",
+        "color_hex" => "char(7)",
+        "null" => "null",
+        _ => "integer",
+    };
+
+    // https://neon.com/postgresql/postgresql-tutorial/postgresql-cast
+    let query = format!(
+        "update {table} set {variable_name} = $1::{variable_type}{} where {id_name} = $2",
+        if table == "filament" {
+            ", last_update = now()"
+        } else {
+            ""
+        }
+    );
+
+    dbg!(&query);
+
+    let result = sqlx::query(&query)
+        .bind(variable_value)
+        .bind(id_value)
+        .execute(pool)
+        .await;
+
+    dbg!(&result);
 
     handle_general_result(result)
 }

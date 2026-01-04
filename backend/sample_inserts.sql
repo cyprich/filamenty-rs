@@ -196,3 +196,9 @@ values ((select id_product
         0, 250);
 
 
+update filament
+set color_name = 'dark'::text,
+    last_update = now()
+where id_filament = 1;
+
+

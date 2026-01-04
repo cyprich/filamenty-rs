@@ -15,6 +15,9 @@ pub enum Error {
     DatabaseError,
     DatabaseReferentialIntegrity,
     DatabaseDuplicate,
+    DatabaseRelationNotExist,
+    DatabaseNullConstraint,
+    DatabaseInvalidValue,
     NotFound,
 }
 
@@ -29,6 +32,15 @@ impl std::fmt::Display for Error {
             }
             Error::DatabaseDuplicate => {
                 write!(f, "Given key already exists")
+            }
+            Error::DatabaseRelationNotExist => {
+                write!(f, "Relation does not exist")
+            }
+            Error::DatabaseNullConstraint => {
+                write!(f, "This value cannot be NULL")
+            }
+            Error::DatabaseInvalidValue => {
+                write!(f, "Relation doesn't have given key")
             }
             Error::NotFound => {
                 write!(f, "Not Found")

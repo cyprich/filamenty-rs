@@ -300,6 +300,7 @@ dependencies = [
  "actix-files",
  "actix-web",
  "lib",
+ "serde",
 ]
 
 [[package]]
