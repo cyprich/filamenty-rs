@@ -1,3 +1,13 @@
+delete from filament;
+delete from product;
+delete from material;
+delete from vendor;
+
+alter sequence filament_id_filament_seq restart with 1;
+alter sequence material_id_material_seq restart with 1;
+alter sequence product_id_product_seq restart with 1;
+alter sequence vendor_id_vendor_seq restart with 1;
+
 -------------
 -- VENDORS --
 -------------
@@ -30,9 +40,9 @@ values ('PETG');
 insert into material (name_material)
 values ('TPU');
 
--------------------
--- PRODUCT LINES --
--------------------
+--------------
+-- PRODUCTS --
+--------------
 
 insert into product (id_vendor, id_material, name_product, temp_min, temp_max, temp_bed_min, temp_bed_max)
 values ((select id_vendor from vendor where name_vendor = 'Bambu Lab'),

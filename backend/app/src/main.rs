@@ -31,6 +31,10 @@ async fn main() -> std::io::Result<()> {
                     .service(delete_materials_by_id)
                     .service(delete_products_by_id)
                     .service(delete_filaments_by_id)
+                    .service(post_vendors)
+                    .service(post_materials)
+                    .service(post_products)
+                    .service(post_filaments)
                     .service(images),
             )
     })

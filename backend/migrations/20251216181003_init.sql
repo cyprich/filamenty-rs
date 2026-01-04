@@ -37,7 +37,8 @@ create table product (
     temp_bed_max temperature_celsius,
     -- TODO: speed?
     foreign key (id_vendor) references vendor(id_vendor),
-    foreign key (id_material) references material(id_material)
+    foreign key (id_material) references material(id_material),
+    unique (id_vendor, id_material, name_product, diameter)
 );
 
 create table filament (
