@@ -153,7 +153,7 @@ values ((select id_product
          where id_vendor = (select id_vendor from vendor where name_vendor = 'Bambu Lab')
            and name_product = 'PLA Basic'),
         29.99, 'Red', '#c12e1f',
-        0, 250);
+        100, 250);
 
 insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
 values ((select id_product
@@ -161,7 +161,7 @@ values ((select id_product
          where id_vendor = (select id_vendor from vendor where name_vendor = 'Bambu Lab')
            and name_product = 'PLA Basic'),
         29.99, 'Purple', '#5e43b7',
-        0, 250);
+        900, 250);
 
 insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
 values ((select id_product
@@ -169,7 +169,7 @@ values ((select id_product
          where id_vendor = (select id_vendor from vendor where name_vendor = 'Bambu Lab')
            and name_product = 'PLA Basic'),
         29.99, 'Orange', '#ff6a13',
-        0, 250);
+        875, 250);
 
 insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
 values ((select id_product
@@ -177,7 +177,7 @@ values ((select id_product
          where id_vendor = (select id_vendor from vendor where name_vendor = 'Bambu Lab')
            and name_product = 'PLA Basic'),
         29.99, 'Pink', '#f55a74',
-        0, 250);
+        970, 250);
 
 insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
 values ((select id_product
@@ -185,7 +185,7 @@ values ((select id_product
          where id_vendor = (select id_vendor from vendor where name_vendor = 'Bambu Lab')
            and name_product = 'PLA Basic'),
         29.99, 'Brown', '#9c432c',
-        0, 250);
+        680, 250);
 
 insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
 values ((select id_product
@@ -193,12 +193,6 @@ values ((select id_product
          where id_vendor = (select id_vendor from vendor where name_vendor = 'Bambu Lab')
            and name_product = 'PLA Basic'),
         29.99, 'Beige', '#f7e6de',
-        0, 250);
-
-
-update filament
-set color_name = 'dark'::text,
-    last_update = now()
-where id_filament = 1;
+        940, 250);
 
 

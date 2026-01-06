@@ -111,6 +111,7 @@ pub async fn get_filaments_full(pool: &Pool) -> Result<Vec<FilamentFull>, crate:
     join product using (id_product)
     join vendor using (id_vendor) 
     join material using (id_material)
+    order by last_edited
     "#,
     )
     .fetch_all(pool)
@@ -245,7 +246,7 @@ pub async fn general_patch(
 
     let variable_type = match variable_name {
         val if val.contains("name") => "text",
-        "diameter" => "float",
+        "diameter" | "price" => "float",
         "color_hex" => "char(7)",
         "null" => "null",
         _ => "integer",
@@ -261,15 +262,11 @@ pub async fn general_patch(
         }
     );
 
-    dbg!(&query);
-
     let result = sqlx::query(&query)
         .bind(variable_value)
         .bind(id_value)
         .execute(pool)
         .await;
-
-    dbg!(&result);
 
     handle_general_result(result)
 }
