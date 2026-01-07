@@ -51,5 +51,7 @@ create table filament (
     netto_weight grams not null,
     spool_weight grams not null,
     last_update timestamp default now() not null,
+    image_path text,
+    qr_path text,
     foreign key (id_product) references product (id_product)
 );

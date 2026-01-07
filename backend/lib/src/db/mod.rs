@@ -1,6 +1,7 @@
 use std::env;
 
 use dotenvy::dotenv;
+use sqlx::Row;
 use sqlx::postgres::{PgPoolOptions, PgQueryResult};
 
 use crate::{
@@ -77,8 +78,17 @@ pub async fn get_vendors(pool: &Pool) -> Result<Vec<Vendor>, crate::Error> {
         .map_err(|_| crate::Error::DatabaseError)
 }
 
-pub async fn get_products(pool: &Pool) -> Result<Vec<Product>, crate::Error> {
-    sqlx::query_as::<_, Product>("select * from product")
+pub async fn get_products(
+    pool: &Pool,
+    id_vendor: Option<i32>,
+) -> Result<Vec<Product>, crate::Error> {
+    let query = if let Some(id) = id_vendor {
+        sqlx::query_as::<_, Product>("select * from product where id_vendor = $1").bind(id)
+    } else {
+        sqlx::query_as::<_, Product>("select * from product")
+    };
+
+    query
         .fetch_all(pool)
         .await
         .map_err(|_| crate::Error::DatabaseError)
@@ -91,17 +101,28 @@ pub async fn get_filaments(pool: &Pool) -> Result<Vec<Filament>, crate::Error> {
         .map_err(|_| crate::Error::DatabaseError)
 }
 
-pub async fn get_products_full(pool: &Pool) -> Result<Vec<ProductFull>, crate::Error> {
-    sqlx::query_as::<_, ProductFull>(
-        r#"
+pub async fn get_products_full(
+    pool: &Pool,
+    id_vendor: Option<i32>,
+) -> Result<Vec<ProductFull>, crate::Error> {
+    let sql = r#"
     select * from product
     join vendor using (id_vendor) 
     join material using (id_material)
-    "#,
-    )
-    .fetch_all(pool)
-    .await
-    .map_err(|_| crate::Error::DatabaseError)
+    "#;
+
+    let sql_vendor = format!("{sql} where id_vendor = $1");
+
+    let query = if let Some(id) = id_vendor {
+        sqlx::query_as::<_, ProductFull>(&sql_vendor).bind(id)
+    } else {
+        sqlx::query_as::<_, ProductFull>(sql)
+    };
+
+    query
+        .fetch_all(pool)
+        .await
+        .map_err(|_| crate::Error::DatabaseError)
 }
 
 pub async fn get_filaments_full(pool: &Pool) -> Result<Vec<FilamentFull>, crate::Error> {
@@ -111,7 +132,7 @@ pub async fn get_filaments_full(pool: &Pool) -> Result<Vec<FilamentFull>, crate:
     join product using (id_product)
     join vendor using (id_vendor) 
     join material using (id_material)
-    order by last_edited
+    order by last_update
     "#,
     )
     .fetch_all(pool)
@@ -136,6 +157,17 @@ pub async fn get_filaments_by_id(pool: &Pool, id: i32) -> Result<FilamentFull, c
         sqlx::Error::RowNotFound => crate::Error::NotFound,
         _ => crate::Error::DatabaseError,
     })
+}
+
+pub async fn get_last_update(pool: &Pool) -> Result<chrono::NaiveDateTime, crate::Error> {
+    let result = sqlx::query_scalar::<_, chrono::NaiveDateTime>(
+        "select last_update from filament order by last_update desc limit 1",
+    )
+    .fetch_one(pool)
+    .await
+    .map_err(|_| crate::Error::DatabaseError)?;
+
+    Ok(result)
 }
 
 // ////////////////
@@ -187,12 +219,13 @@ values ($1, $2, $3, $4, $5, $6, $7, $8)"#;
 pub async fn add_filaments(pool: &Pool, filament: NewFilament) -> Result<(), crate::Error> {
     let query = r#"
 insert into filament (
-id_product, price, 
-color_name, color_hex, 
-original_weight, 
-netto_weight, 
-spool_weight) 
-values ($1, $2, $3, $4, $5, $6, $7)"#;
+    id_product, price, 
+    color_name, color_hex, 
+    original_weight, netto_weight, spool_weight,
+    image_path) 
+values ($1, $2, $3, $4, $5, $6, $7, $8)
+returning id_filament
+"#;
 
     let result = sqlx::query(query)
         .bind(filament.id_product)
@@ -202,6 +235,17 @@ values ($1, $2, $3, $4, $5, $6, $7)"#;
         .bind(filament.original_weight)
         .bind(filament.netto_weight)
         .bind(filament.spool_weight)
+        .bind(filament.image_path)
+        .fetch_one(pool)
+        .await
+        .map_err(|_| crate::Error::DatabaseError)?;
+
+    let id: i32 = result.get("id_filament");
+    let qr_path = crate::qr::generate_for_filament_id(id).await;
+
+    let result = sqlx::query("update filament set qr_path = $1 where id_filament = $2")
+        .bind(qr_path)
+        .bind(id)
         .execute(pool)
         .await;
 

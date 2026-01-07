@@ -1,5 +1,6 @@
 pub mod db;
 pub mod qr;
+pub mod uuid;
 
 pub use crate::db::Pool;
 
@@ -10,7 +11,7 @@ pub use crate::db::models::Product;
 pub use crate::db::models::ProductFull;
 pub use crate::db::models::Vendor;
 
-#[derive(Debug)]
+#[derive(Debug, serde::Serialize)]
 pub enum Error {
     DatabaseError,
     DatabaseReferentialIntegrity,

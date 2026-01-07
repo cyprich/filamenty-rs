@@ -153,46 +153,184 @@ values ((select id_product
          where id_vendor = (select id_vendor from vendor where name_vendor = 'Bambu Lab')
            and name_product = 'PLA Basic'),
         29.99, 'Red', '#c12e1f',
-        100, 250);
+        287, 250);
 
 insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
 values ((select id_product
          from product
          where id_vendor = (select id_vendor from vendor where name_vendor = 'Bambu Lab')
            and name_product = 'PLA Basic'),
-        29.99, 'Purple', '#5e43b7',
-        900, 250);
+        19.99, 'Purple', '#5e43b7',
+        963, 250);
 
 insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
 values ((select id_product
          from product
          where id_vendor = (select id_vendor from vendor where name_vendor = 'Bambu Lab')
            and name_product = 'PLA Basic'),
-        29.99, 'Orange', '#ff6a13',
-        875, 250);
+        19.99, 'Orange', '#ff6a13',
+        955, 250);
 
 insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
 values ((select id_product
          from product
          where id_vendor = (select id_vendor from vendor where name_vendor = 'Bambu Lab')
            and name_product = 'PLA Basic'),
-        29.99, 'Pink', '#f55a74',
-        970, 250);
+        19.99, 'Pink', '#f55a74',
+        985, 250);
 
 insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
 values ((select id_product
          from product
          where id_vendor = (select id_vendor from vendor where name_vendor = 'Bambu Lab')
            and name_product = 'PLA Basic'),
-        29.99, 'Brown', '#9c432c',
-        680, 250);
+        19.99, 'Brown', '#9c432c',
+        618, 250);
 
 insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
 values ((select id_product
          from product
          where id_vendor = (select id_vendor from vendor where name_vendor = 'Bambu Lab')
            and name_product = 'PLA Basic'),
-        29.99, 'Beige', '#f7e6de',
-        940, 250);
+        19.99, 'Beige', '#f7e6de',
+        981, 250);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'Filament PM')
+           and name_product = 'PLA+ 1.75'),
+        23.90, 'White', '#eeeeee',
+        0, 216);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'Filament PM')
+           and name_product = 'PLA+ 1.75'),
+        23.90, 'Sweet Mint', '#73bab5',
+        0, 216);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'Filament PM')
+           and name_product = 'PLA 1.75'),
+        26.90, 'Green', '#80bf1a',
+        198, 216);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, original_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'Filament PM')
+           and name_product = 'PLA+ Army Edition'),
+        12.99, 'Dusty Brown', '#a69281',
+        170, 500, 230);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'eSun')
+           and name_product = 'PLA+'),
+        20.99, 'Yellow', '#fbe625',
+        0, 224);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'eSun')
+           and name_product = 'eSilk-PLA'),
+        20.99, 'Blue', '#123cea',
+        409, 224);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'eSun')
+           and name_product = 'ePLA-Silk Magic'),
+        25.99, 'Blue', '#e41e95',
+        658, 220);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'Polymaker')
+           and name_product = 'PolyTerra PLA'),
+        19.99, 'Sakura Pink', '#e4bdd0',
+        191, 140);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'Polymaker')
+           and name_product = 'PolyTerra PLA'),
+        19.99, 'Fossil Gray', '#aaaaaa',
+        313, 140);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'Polymaker')
+           and name_product = 'PolyTerra PLA'),
+        19.99, 'Charcoal Black', '#111111',
+        55, 140);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'Polymaker')
+           and name_product = 'PolyTerra PLA'),
+        19.99, 'Cotton White', '#eeeeee',
+        0, 140);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'Polymaker')
+           and name_product = 'PolyTerra PLA'),
+        19.99, 'Sapphire Blue', '#026bbf',
+        759, 140);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'Prusa')
+           and name_product = 'Prusament PLA'),
+        29.99, 'Prusa Orange', '#fc6d09',
+        296, 186);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, original_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'Fiberlogy')
+           and name_product = 'FiberFlex 40D'),
+        25.30, 'Black', '#111111',
+        227, 500, 250);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'Spectrum')
+           and name_product = 'PET-G Premium'),
+        19.99, 'Deep Black', '#141414',
+        551, 260);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'Spectrum')
+           and name_product = 'PET-G Matt'),
+        19.99, 'Polar White', '#fefefe',
+        520, 260);
+
+insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
+values ((select id_product
+         from product
+         where id_vendor = (select id_vendor from vendor where name_vendor = 'Alza')
+           and name_product = 'Alzament PLA Basic'),
+        9.99, 'Yellow', '#fefe01',
+        853, 137);
+
+
 
 
