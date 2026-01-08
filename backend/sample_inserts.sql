@@ -320,7 +320,7 @@ values ((select id_product
          from product
          where id_vendor = (select id_vendor from vendor where name_vendor = 'Spectrum')
            and name_product = 'PET-G Matt'),
-        19.99, 'Polar White', '#fefefe',
+        19.99, 'Polar White', '#eeeeee',
         520, 260);
 
 insert into filament (id_product, price, color_name, color_hex, netto_weight, spool_weight)
@@ -330,7 +330,3 @@ values ((select id_product
            and name_product = 'Alzament PLA Basic'),
         9.99, 'Yellow', '#fefe01',
         853, 137);
-
-
-
-

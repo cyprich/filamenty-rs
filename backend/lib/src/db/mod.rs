@@ -170,6 +170,13 @@ pub async fn get_last_update(pool: &Pool) -> Result<chrono::NaiveDateTime, crate
     Ok(result)
 }
 
+pub async fn get_missing_qrcodes(pool: &Pool) -> Result<Vec<i32>, crate::Error> {
+    sqlx::query_scalar::<_, i32>("select id_filament from filament where qr_path is null")
+        .fetch_all(pool)
+        .await
+        .map_err(|_| crate::Error::DatabaseError)
+}
+
 // ////////////////
 // POST REQUESTS //
 // ////////////////
@@ -289,7 +296,7 @@ pub async fn general_patch(
     let variable_value = variable_value.unwrap_or("null");
 
     let variable_type = match variable_name {
-        val if val.contains("name") => "text",
+        val if val.contains("name") || val.contains("path") => "text",
         "diameter" | "price" => "float",
         "color_hex" => "char(7)",
         "null" => "null",

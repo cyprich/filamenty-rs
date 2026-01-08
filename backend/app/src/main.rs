@@ -8,7 +8,7 @@ use crate::endpoints::*;
 async fn main() -> std::io::Result<()> {
     let pool = lib::db::create_pool().await;
 
-    lib::qr::prepare_all(&pool).await;
+    lib::qr::prepare_missing(&pool).await;
 
     HttpServer::new(move || {
         App::new()

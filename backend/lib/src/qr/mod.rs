@@ -36,12 +36,23 @@ pub async fn generate_for_filament_id(id: i32) -> String {
     filename
 }
 
-pub async fn prepare_all(pool: &Pool) {
-    let filaments = crate::db::get_filaments(pool)
+pub async fn prepare_missing(pool: &Pool) {
+    let missing_ids = crate::db::get_missing_qrcodes(pool)
         .await
-        .expect("Failed to load filaments from database");
+        .expect("Failed to load IDs from database");
 
-    for f in filaments {
-        generate_for_filament_id(f.id_filament).await;
+    for id in missing_ids {
+        let qr_filename = generate_for_filament_id(id).await;
+        crate::db::general_patch(
+            pool,
+            "filament",
+            "qr_path",
+            Some(&qr_filename),
+            "id_filament",
+            id,
+            vec!["qr_path"],
+        )
+        .await
+        .expect("Failed to update filaments in database");
     }
 }
