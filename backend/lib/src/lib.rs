@@ -2,6 +2,9 @@ pub mod db;
 pub mod qr;
 pub mod uuid;
 
+use std::path::Path;
+use std::path::PathBuf;
+
 pub use crate::db::Pool;
 
 pub use crate::db::models::Filament;
@@ -48,4 +51,11 @@ impl std::fmt::Display for Error {
             }
         }
     }
+}
+
+pub fn ensure_directory(path: &PathBuf) {
+    let dir = path.to_str().expect("Invalid directory path");
+    if !Path::new(dir).exists() {
+        std::fs::create_dir(dir).unwrap_or_else(|_| panic!("Failed to create directory {dir}"))
+    };
 }

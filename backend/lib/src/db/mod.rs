@@ -65,14 +65,14 @@ fn handle_general_result(result: Result<PgQueryResult, sqlx::Error>) -> Result<(
 // ///////////////
 
 pub async fn get_materials(pool: &Pool) -> Result<Vec<Material>, crate::Error> {
-    sqlx::query_as::<_, Material>("select * from material")
+    sqlx::query_as::<_, Material>("select * from material order by id_material")
         .fetch_all(pool)
         .await
         .map_err(|_| crate::Error::DatabaseError)
 }
 
 pub async fn get_vendors(pool: &Pool) -> Result<Vec<Vendor>, crate::Error> {
-    sqlx::query_as::<_, Vendor>("select * from vendor")
+    sqlx::query_as::<_, Vendor>("select * from vendor order by id_vendor")
         .fetch_all(pool)
         .await
         .map_err(|_| crate::Error::DatabaseError)
@@ -83,9 +83,12 @@ pub async fn get_products(
     id_vendor: Option<i32>,
 ) -> Result<Vec<Product>, crate::Error> {
     let query = if let Some(id) = id_vendor {
-        sqlx::query_as::<_, Product>("select * from product where id_vendor = $1").bind(id)
+        sqlx::query_as::<_, Product>(
+            "select * from product where id_vendor = $1 order by id_product",
+        )
+        .bind(id)
     } else {
-        sqlx::query_as::<_, Product>("select * from product")
+        sqlx::query_as::<_, Product>("select * from product order by id_product")
     };
 
     query
@@ -95,7 +98,7 @@ pub async fn get_products(
 }
 
 pub async fn get_filaments(pool: &Pool) -> Result<Vec<Filament>, crate::Error> {
-    sqlx::query_as::<_, Filament>("select * from filament")
+    sqlx::query_as::<_, Filament>("select * from filament order by id_filament")
         .fetch_all(pool)
         .await
         .map_err(|_| crate::Error::DatabaseError)
@@ -109,6 +112,7 @@ pub async fn get_products_full(
     select * from product
     join vendor using (id_vendor) 
     join material using (id_material)
+    order by id_product
     "#;
 
     let sql_vendor = format!("{sql} where id_vendor = $1");
@@ -132,7 +136,7 @@ pub async fn get_filaments_full(pool: &Pool) -> Result<Vec<FilamentFull>, crate:
     join product using (id_product)
     join vendor using (id_vendor) 
     join material using (id_material)
-    order by last_update
+    order by id_filament
     "#,
     )
     .fetch_all(pool)
@@ -148,6 +152,7 @@ pub async fn get_filaments_by_id(pool: &Pool, id: i32) -> Result<FilamentFull, c
     join vendor using (id_vendor) 
     join material using (id_material)
     where id_filament = $1
+    order by id_filament
     "#,
     )
     .bind(id)

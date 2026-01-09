@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use actix_cors::Cors;
 use actix_web::{App, HttpServer, middleware::NormalizePath, web};
 
@@ -9,6 +11,7 @@ async fn main() -> std::io::Result<()> {
     let pool = lib::db::create_pool().await;
 
     lib::qr::prepare_missing(&pool).await;
+    lib::ensure_directory(&PathBuf::from("images/uploads"));
 
     HttpServer::new(move || {
         App::new()

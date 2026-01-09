@@ -48,7 +48,7 @@ insert into product (id_vendor, id_material, name_product, temp_min, temp_max, t
 values ((select id_vendor from vendor where name_vendor = 'Bambu Lab'),
         (select id_material from material where name_material = 'PLA'),
         'PLA Basic',
-        190, 250,
+        190, 230,
         45, 65);
 
 insert into product (id_vendor, id_material, name_product, temp_min, temp_max, temp_bed_min, temp_bed_max)
@@ -330,3 +330,6 @@ values ((select id_product
            and name_product = 'Alzament PLA Basic'),
         9.99, 'Yellow', '#fefe01',
         853, 137);
+
+
+select * from filament;

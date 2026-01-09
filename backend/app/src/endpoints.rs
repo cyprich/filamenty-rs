@@ -106,9 +106,9 @@ async fn get_filaments_by_id(pool: web::Data<lib::Pool>, id: web::Path<i32>) -> 
     }
 }
 
-#[get("/images/{name}")]
-async fn images(name: web::Path<String>) -> actix_web::Result<NamedFile> {
-    let path: PathBuf = PathBuf::from("images").join(name.into_inner());
+#[get("/images/{path:.*}")]
+async fn images(path: web::Path<String>) -> actix_web::Result<NamedFile> {
+    let path: PathBuf = PathBuf::from("images").join(path.into_inner());
 
     let named_file = NamedFile::open(path);
 
@@ -193,10 +193,10 @@ async fn post_images(MultipartForm(form): MultipartForm<ImageMultipartForm>) -> 
     let old_path = &form.file.file.path();
     let extension = content_type.split('/').last().unwrap();
     let new_filename = format!("{}.{}", lib::uuid::get(), extension);
-    let new_path = format!("images/{new_filename}");
+    let new_path = format!("images/uploads/{new_filename}");
 
     match fs::copy(old_path, new_path) {
-        Ok(_) => HttpResponse::Ok().json(new_filename),
+        Ok(_) => HttpResponse::Ok().json(format!("uploads/{}", new_filename)),
         Err(val) => HttpResponse::InternalServerError().json(val.to_string()),
     }
 }
@@ -336,6 +336,7 @@ async fn patch_filaments_by_id(
             "original_weight",
             "netto_weight",
             "spool_weight",
+            "image_path",
         ],
     )
     .await;

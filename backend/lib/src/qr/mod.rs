@@ -1,7 +1,4 @@
-use std::{
-    env,
-    path::{Path, PathBuf},
-};
+use std::{env, path::PathBuf};
 
 use dotenvy::dotenv;
 use image::Luma;
@@ -19,11 +16,9 @@ pub async fn generate_manually(content: &str, path: PathBuf) {
 pub async fn generate_for_filament_id(id: i32) -> String {
     dotenv().ok();
 
-    let dir = String::from("images");
+    let dir = String::from("images/qr");
 
-    if !Path::new(&dir).exists() {
-        std::fs::create_dir(&dir).expect("Failed to create directory `images`")
-    };
+    crate::ensure_directory(&PathBuf::from(&dir));
 
     let filename = format!("{}.png", crate::uuid::get());
     let path = PathBuf::from(dir).join(&filename);
@@ -33,7 +28,7 @@ pub async fn generate_for_filament_id(id: i32) -> String {
 
     generate_manually(&content, path).await;
 
-    filename
+    format!("qr/{filename}")
 }
 
 pub async fn prepare_missing(pool: &Pool) {
