@@ -2,9 +2,6 @@ pub mod db;
 pub mod qr;
 pub mod uuid;
 
-use std::path::Path;
-use std::path::PathBuf;
-
 pub use crate::db::Pool;
 
 pub use crate::db::models::Filament;
@@ -23,6 +20,7 @@ pub enum Error {
     DatabaseNullConstraint,
     DatabaseInvalidValue,
     NotFound,
+    MigrationError,
 }
 
 impl std::fmt::Display for Error {
@@ -49,13 +47,13 @@ impl std::fmt::Display for Error {
             Error::NotFound => {
                 write!(f, "Not Found")
             }
+            Error::MigrationError => {
+                write!(f, "Error while running database migrations")
+            }
         }
     }
 }
 
-pub fn ensure_directory(path: &PathBuf) {
-    let dir = path.to_str().expect("Invalid directory path");
-    if !Path::new(dir).exists() {
-        std::fs::create_dir(dir).unwrap_or_else(|_| panic!("Failed to create directory {dir}"))
-    };
+pub fn ensure_directory(path: &str) {
+    std::fs::create_dir_all(path).expect("Failed to create directory");
 }

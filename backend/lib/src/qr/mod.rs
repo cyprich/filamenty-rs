@@ -16,12 +16,8 @@ pub async fn generate_manually(content: &str, path: PathBuf) {
 pub async fn generate_for_filament_id(id: i32) -> String {
     dotenv().ok();
 
-    let dir = String::from("images/qr");
-
-    crate::ensure_directory(&PathBuf::from(&dir));
-
     let filename = format!("{}.png", crate::uuid::get());
-    let path = PathBuf::from(dir).join(&filename);
+    let path = PathBuf::from(format!("images/qr/{filename}"));
 
     let hostname = env::var("HOSTNAME").expect("'HOSTNAME' environment variable has to be set");
     let content = format!("{hostname}/filament/{}", id);

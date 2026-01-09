@@ -1,5 +1,3 @@
-use std::path::PathBuf;
-
 use actix_cors::Cors;
 use actix_web::{App, HttpServer, middleware::NormalizePath, web};
 
@@ -10,9 +8,17 @@ use crate::endpoints::*;
 async fn main() -> std::io::Result<()> {
     let pool = lib::db::create_pool().await;
 
-    lib::qr::prepare_missing(&pool).await;
-    lib::ensure_directory(&PathBuf::from("images/uploads"));
+    // run migrations
+    if let Err(e) = lib::db::run_migrations(&pool).await {
+        panic!("{e}");
+    }
 
+    // prepare folders and filse
+    lib::ensure_directory("images/uploads");
+    lib::ensure_directory("images/qr");
+    lib::qr::prepare_missing(&pool).await;
+
+    // run the server
     HttpServer::new(move || {
         App::new()
             .wrap(NormalizePath::new(
@@ -47,7 +53,7 @@ async fn main() -> std::io::Result<()> {
                     .service(images),
             )
     })
-    .bind(("127.0.0.1", 5000))?
+    .bind(("0.0.0.0", 5000))?
     .run()
     .await
 }

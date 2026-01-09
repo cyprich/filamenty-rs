@@ -59,6 +59,13 @@ fn handle_general_result(result: Result<PgQueryResult, sqlx::Error>) -> Result<(
     }
 }
 
+pub async fn run_migrations(pool: &Pool) -> Result<(), crate::Error> {
+    sqlx::migrate!("../migrations")
+        .run(pool)
+        .await
+        .map_err(|_| crate::Error::MigrationError)
+}
+
 // ///////////////
 // GET REQUESTS //
 // ///////////////

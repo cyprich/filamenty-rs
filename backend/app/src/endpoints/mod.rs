@@ -18,9 +18,8 @@ fn handle_general_result(result: Result<(), lib::Error>) -> HttpResponse {
             lib::Error::DatabaseReferentialIntegrity
             | lib::Error::DatabaseRelationNotExist
             | lib::Error::DatabaseInvalidValue
-            | lib::Error::DatabaseNullConstraint => {
-                HttpResponse::BadRequest().json(val.to_string())
-            }
+            | lib::Error::DatabaseNullConstraint
+            | lib::Error::MigrationError => HttpResponse::BadRequest().json(val.to_string()),
             lib::Error::DatabaseDuplicate => HttpResponse::Conflict().json(val.to_string()),
             lib::Error::NotFound => HttpResponse::NotFound().json(val.to_string()),
         },
