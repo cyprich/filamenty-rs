@@ -249,7 +249,7 @@ values ($1, $2, $3, $4, $5, $6, $7, $8)
 returning *
 "#;
 
-    sqlx::query_as::<_, Filament>(query)
+    let result = sqlx::query_as::<_, Filament>(query)
         .bind(filament.id_product)
         .bind(filament.price)
         .bind(filament.color_name)
@@ -258,6 +258,18 @@ returning *
         .bind(filament.netto_weight)
         .bind(filament.spool_weight)
         .bind(filament.image_path)
+        .fetch_one(pool)
+        .await
+        .map_err(|_| crate::Error::DatabaseError)?;
+
+    let qr_path = crate::qr::generate_for_filament_id(result.id_filament).await;
+
+    let query = format!(
+        "update filament set qr_path = '{}' where id_filament = {} returning *",
+        qr_path, result.id_filament
+    );
+
+    sqlx::query_as(&query)
         .fetch_one(pool)
         .await
         .map_err(|_| crate::Error::DatabaseError)
