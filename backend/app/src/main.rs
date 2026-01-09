@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use actix_cors::Cors;
 use actix_web::{App, HttpServer, middleware::NormalizePath, web};
 
-mod endpoints;
+pub mod endpoints;
 use crate::endpoints::*;
 
 #[actix_web::main]
