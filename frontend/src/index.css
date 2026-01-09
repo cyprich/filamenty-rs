@@ -38,10 +38,22 @@ footer {
     }
 }
 
+select {
+    @apply p-2 rounded-xl border border-black/0;
+}
+
+select:hover {
+    @apply border-black/100;
+}
+
 /*---------- GENERAL CLASSES ---------- */
 
 .main {
     @apply p-20 min-h-256 portrait:p-10;
+}
+
+.main-spacing {
+    @apply flex flex-col gap-8;
 }
 
 .icon {
@@ -86,7 +98,7 @@ div.custom-border {
     }
 }
 
-.add-filament {
+.add-filament, .add-product {
     tr:nth-child(even) {
         @apply bg-zinc-200;
     }
@@ -116,8 +128,55 @@ div.custom-border {
     }
 }
 
+.add-product table {
+    @apply w-max;
+
+    tr {
+        @apply w-max;
+
+        td {
+            @apply w-max p-2;
+        }
+    }
+}
+
+.products-table .temp-td {
+    &>div {
+        @apply flex gap-1.5 p-2 items-center;
+    }
+}
+
 .labels table td {
     @apply portrait:text-sm;
+}
+
+.bigtable {
+    @apply rounded-2xl border border-black p-4;
+
+    table {
+        @apply table-auto w-full;
+
+        thead {
+            @apply text-lg font-semibold border-b border-black;
+
+            td {
+                @apply pb-4;
+            }
+        }
+
+        tr:nth-child(even) {
+            @apply bg-gray-200;
+        }
+
+        td {
+            @apply px-4 py-2 align-middle;
+        }
+
+        td:last-child {
+            @apply text-center flex justify-center items-center align-middle;
+            /*@apply text-center;*/
+        }
+    }
 }
 
 /*---------- PRINT MEDIA ---------- */

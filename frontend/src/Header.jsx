@@ -9,9 +9,15 @@ function Header() {
             <img className={"clickable-small w-12 h-12 mr-4 portrait:mr-0 portrait:order-2 justify-self-center"}
                  src={"/src/images/icon.png"} alt=""
                  onClick={() => navigate("/")}/>
-            <p className={"clickable-small portrait:order-1 justify-self-center"}
+            <p className={"clickable-small justify-self-center"}
                onClick={() => navigate("/")}>Filamenty</p>
-            <p className={"clickable-small portrait:order-3 justify-self-center"}
+            <p className={"clickable-small justify-self-center"}
+               onClick={() => navigate("/produkty")}>Produkty</p>
+            <p className={"clickable-small justify-self-center"}
+               onClick={() => navigate("/vyrobcovia")}>Výrobcovia</p>
+            <p className={"clickable-small justify-self-center"}
+               onClick={() => navigate("/materialy")}>Materiály</p>
+            <p className={"clickable-small justify-self-center"}
                onClick={() => navigate("/stitky")}>Štítky</p>
         </header>
     )
