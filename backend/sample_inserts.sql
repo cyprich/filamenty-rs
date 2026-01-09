@@ -330,6 +330,3 @@ values ((select id_product
            and name_product = 'Alzament PLA Basic'),
         9.99, 'Yellow', '#fefe01',
         853, 137);
-
-
-select * from filament;

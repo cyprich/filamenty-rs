@@ -1,0 +1,6 @@
+target/
+
+.env
+
+images/qr/
+images/uploads/
