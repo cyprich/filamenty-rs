@@ -1,7 +1,8 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import axios from "axios";
 
 import {BASE_URL} from "../config.js";
+import missingFilament from "../images/missing_filament.png";
 
 function EditableImage({defaultSrc, idFilament, setImagePath}) {
     const [imagePreview, setImagePreview] = useState(defaultSrc);
@@ -10,7 +11,7 @@ function EditableImage({defaultSrc, idFilament, setImagePath}) {
         const selectedFile = e.target.files[0];
         if (!selectedFile) return;
 
-        setImagePreview(URL.createObjectURL(selectedFile));
+        setImagePreview(URL.createObjectURL(selectedFile) ?? missingFilament);
 
         const formData = new FormData();
         formData.append("file", selectedFile);
@@ -20,7 +21,7 @@ function EditableImage({defaultSrc, idFilament, setImagePath}) {
             .then((response) => {
                 const filename = response.data;
 
-                if (idFilament != undefined) {
+                if (idFilament !== undefined) {
                     axios
                         .patch(`${BASE_URL}/filaments/${idFilament}`, {
                             "key": "image_path",
@@ -29,7 +30,7 @@ function EditableImage({defaultSrc, idFilament, setImagePath}) {
                         .catch(error => console.error(error))
                 }
 
-                if (setImagePath != undefined) {
+                if (setImagePath !== undefined) {
                     setImagePath(filename)
                 }
             })
@@ -38,12 +39,16 @@ function EditableImage({defaultSrc, idFilament, setImagePath}) {
 
 
     return (
-        <div className={"relative w-max h-max "}>
+        <div className={"relative w-max h-max"}>
             <label htmlFor="fileInputElement">
                 <img
-                    src={imagePreview}
-                    alt=""
-                    className={"clickable-small border custom-border max-w-128 object-contain p-8"}
+                    src={imagePreview || missingFilament}
+                    alt="filament"
+                    onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = missingFilament
+                    }}
+                    className={"clickable-small border custom-border max-w-128 max-h-128 object-contain p-8"}
                 />
             </label>
             <input

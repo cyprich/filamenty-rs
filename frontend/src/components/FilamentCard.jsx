@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import DeleteConfirmation from "./DeleteConfirmation.jsx";
@@ -7,6 +6,7 @@ import FilamentCardBar from "./FilamentCardBar.jsx";
 import {BASE_URL} from "../config.js";
 import editIcon from "../images/edit.png";
 import deleteIcon from "../images/delete.png";
+import missingFilament from "../images/missing_filament.png";
 
 function FilamentCard({filament}) {
     const navigate = useNavigate();
@@ -22,6 +22,10 @@ function FilamentCard({filament}) {
                 src={`${BASE_URL}/images/${filament.image_path}`}
                 alt=""
                 onClick={() => navigate(`/filament/${filament.id_filament}`)}
+                onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = missingFilament
+                }}
             />
             <div className={"w-full flex flex-col items-center gap-2"}>
                 <p>{filament.netto_weight} g left</p>

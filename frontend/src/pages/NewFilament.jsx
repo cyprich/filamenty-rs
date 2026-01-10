@@ -64,7 +64,7 @@ function NewFilament() {
         <div className={"main main-spacing add-filament flex flex-col"}>
             <PageHeading title={"Nový filament"}/>
             <div className={"flex gap-8"}>
-                <EditableImage defaultSrc={`${BASE_URL}/images/missing_filament.png`} setImagePath={setImagePath}/>
+                <EditableImage setImagePath={setImagePath}/>
                 <div className={"flex flex-col justify-between"}>
                     <table>
                         <tbody>

@@ -1,5 +1,7 @@
 # https://dev.to/imzihad21/deploying-a-react-app-with-docker-using-nginx-4in4
 FROM node:alpine AS builder
+ARG VITE_BASE_URL
+ENV VITE_BASE_URL=${VITE_BASE_URL}
 WORKDIR /app
 COPY package.json ./
 RUN npm install 

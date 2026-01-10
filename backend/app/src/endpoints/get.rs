@@ -73,14 +73,5 @@ pub async fn get_last_update(pool: web::Data<lib::Pool>) -> impl Responder {
 pub async fn images(path: web::Path<String>) -> actix_web::Result<NamedFile> {
     let path: PathBuf = PathBuf::from("images").join(path.into_inner());
 
-    let named_file = NamedFile::open(path);
-
-    if let Ok(file) = named_file {
-        return Ok(file);
-    }
-
-    let fallback_path = PathBuf::from("images").join("missing_filament.png");
-    let file = NamedFile::open(fallback_path);
-
-    Ok(file?)
+    Ok(NamedFile::open(path)?)
 }

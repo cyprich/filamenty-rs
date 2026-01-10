@@ -1,14 +1,14 @@
 services:
   db:
-    image: postgres:16
+    image: postgres:18
     container_name: filamenty_db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: filamenty
+      POSTGRES_PASSWORD: filamenty
+      POSTGRES_DB: filamenty
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     ports:
       - "5432:5432"
 
@@ -16,31 +16,30 @@ services:
     build: ./backend
     container_name: filamenty_backend
     restart: unless-stopped
-    # env_file: .env
     environment:
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      DATABASE_URL: postgres://filamenty:filamenty@db:5432/filamenty
+      HOSTNAME: http://www.example.com
     depends_on:
       - db
-    # ports:
-    #   - "${BACKEND_PORT}:5000"
+    ports:
+      - "5000:5000"
     volumes:
-      - images:/images
+      - backend_images:/app/images
 
   frontend:
-    # build: ./frontend
     build:
       context: ./frontend
       args:
-        BACKEND_PORT: ${BACKEND_PORT}
+        VITE_BASE_URL: http://localhost:5000/api/v2
     container_name: filamenty_frontend
     restart: unless-stopped
-    # env_file: .env
-    # environment:
-    #   BACKEND_PORT: ${BACKEND_PORT}
-    #   VITE_BASE_URL: http://localhost:${BACKEND_PORT}/api/v2
+    environment:
+      VITE_BASE_URL: http://localhost:5000/api/v2
     ports:
-      - "${FRONTEND_PORT}:3000"
+      - "80:80"
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
-  images:
+  backend_images:
