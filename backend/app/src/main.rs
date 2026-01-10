@@ -1,3 +1,5 @@
+use std::env;
+
 use actix_cors::Cors;
 use actix_web::{App, HttpServer, middleware::NormalizePath, web};
 
@@ -18,13 +20,24 @@ async fn main() -> std::io::Result<()> {
     lib::ensure_directory("images/qr");
     lib::qr::prepare_missing(&pool).await;
 
+    //
+    let port = env::var("BACKEND_PORT")
+        .expect("'BACKEND_PORT' environment variable has to be set")
+        .parse::<u16>()
+        .expect("Couldn't convert 'BACKEND_PORT' to u16");
+
     // run the server
     HttpServer::new(move || {
         App::new()
             .wrap(NormalizePath::new(
                 actix_web::middleware::TrailingSlash::Trim,
             ))
-            .wrap(Cors::permissive()) // TODO
+            .wrap(
+                Cors::default()
+                    .allow_any_origin()
+                    .allow_any_header()
+                    .allow_any_method(),
+            )
             .app_data(web::Data::new(pool.clone()))
             .service(
                 web::scope("/api/v2")
@@ -53,7 +66,7 @@ async fn main() -> std::io::Result<()> {
                     .service(images),
             )
     })
-    .bind(("0.0.0.0", 5000))?
+    .bind(("0.0.0.0", port))?
     .run()
     .await
 }
