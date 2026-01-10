@@ -6,6 +6,7 @@ import DeleteConfirmation from "../components/DeleteConfirmation.jsx";
 import PlusInput from "../components/PlusInput.jsx";
 
 import {BASE_URL} from "../config.js";
+import deleteIcon from "../images/delete.png";
 
 function Vendors() {
     const [vendors, setVendors] = useState([]);
@@ -18,7 +19,14 @@ function Vendors() {
     useEffect(() => {
         axios
             .get(`${BASE_URL}/vendors`)
-            .then(response => setVendors(response.data))
+            .then(response => {
+                const data = response?.data;
+                if (Array.isArray(data)) {
+                    setVendors(data)
+                } else {
+                    setVendors([]);
+                }
+            })
     }, []);
 
     return (
@@ -43,7 +51,7 @@ function Vendors() {
                             /></td>
                             <td className={"text-center align-middle"}>
                                 <img
-                                    src="/src/images/delete.png"
+                                    src={deleteIcon}
                                     alt=""
                                     className={"icon clickable"}
                                     onClick={() => {

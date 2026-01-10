@@ -1,19 +1,15 @@
-# https://www.docker.com/blog/how-to-dockerize-react-app/
-FROM node:23-alpine3.20 as build
-
+# https://dev.to/imzihad21/deploying-a-react-app-with-docker-using-nginx-4in4
+FROM node:alpine AS builder
 WORKDIR /app
-ARG BACKEND_PORT
-ENV VITE_BASE_URL=http://localhost:${BACKEND_PORT}/api/v2
-
-COPY package*.json .
-RUN npm install
+COPY package.json ./
+RUN npm install 
 COPY . .
-# RUN npm run build
+RUN npm run build
 
-# FROM nginx:stable-alpine as production
-# COPY --from=build /app/dist /usr/share/nginx/html
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+RUN echo 'server { listen 80; server_name _; root /usr/share/nginx/html; index index.html; location / { try_files $uri $uri/ /index.html; } }' > /etc/nginx/conf.d/default.conf
 
-EXPOSE 3000
-# CMD [ "nginx", "-g", "daemon off;" ]
-CMD [ "npm", "run", "dev", "--", "--host" ]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+

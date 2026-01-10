@@ -10,6 +10,7 @@ import EditableImage from "../components/EditableImage.jsx";
 import FormattedDate from "../components/FormattedDate.jsx";
 
 import {BASE_URL} from "../config.js";
+import deleteRedIcon from "../images/delete_red.png";
 
 function Filament() {
     const { id } = useParams();
@@ -27,12 +28,9 @@ function Filament() {
                 setResponseCode(response.status);
             })
             .catch(error => console.error(error));
-        // let query = `${BASE_URL}/products?id_vendor=${filament.id_vendor}`
-        // console.log(query)
     }, [id]);
 
     function setShowDelete(state) {
-        _setShowDelete(!showDelete);
         _setShowDelete(state);
     }
 
@@ -208,7 +206,7 @@ function Filament() {
                                         >
                                             <img
                                                 className={"w-8 -ml-2"}
-                                                src="/src/images/delete_red.png"
+                                                src={deleteRedIcon}
                                                 alt=""
                                             />
                                             <p>Odstrániť</p>
@@ -226,7 +224,7 @@ function Filament() {
                                 >
                                     <img
                                         className={"w-8"}
-                                        src="/src/images/delete_red.png"
+                                        src={deleteRedIcon}
                                         alt=""
                                     />
                                     <p>Odstrániť</p>

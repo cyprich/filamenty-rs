@@ -9,7 +9,14 @@ function DropdownVendor({value, idProduct, setIdVendor}) {
     useEffect(() => {
         axios
             .get(`${BASE_URL}/vendors`)
-            .then(response => setVendors(response.data))
+            .then(response => {
+                const data = response?.data;
+                if (Array.isArray(data)) {
+                    setVendors(data)
+                } else {
+                    setVendors([]);
+                }
+            })
     }, []);
 
     function handleChange(selectedItem) {

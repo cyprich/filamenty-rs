@@ -1,9 +1,12 @@
+/* eslint-disable react/prop-types */
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import DeleteConfirmation from "./DeleteConfirmation.jsx";
 import FilamentCardBar from "./FilamentCardBar.jsx";
 
 import {BASE_URL} from "../config.js";
+import editIcon from "../images/edit.png";
+import deleteIcon from "../images/delete.png";
 
 function FilamentCard({filament}) {
     const navigate = useNavigate();
@@ -59,13 +62,13 @@ function FilamentCard({filament}) {
                     <div className={"flex flex-col justify-end gap-2"}>
                         <img
                             className={"icon clickable"}
-                            src="/src/images/edit.png"
+                            src={editIcon}
                             alt="edit"
                             onClick={() => navigate(`/filament/${filament.id_filament}`)}
                         />
                         <img
                             className={"icon clickable"}
-                            src="/src/images/delete.png"
+                            src={deleteIcon}
                             alt="delete"
                             onClick={() => setShowDelete(true)}
                         />

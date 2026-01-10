@@ -8,6 +8,7 @@ import DropdownMaterial from "../components/DropdownMaterial.jsx";
 import DeleteConfirmation from "../components/DeleteConfirmation.jsx";
 
 import {BASE_URL} from "../config.js";
+import deleteIcon from "../images/delete.png";
 
 function Products() {
     const [products, setProducts] = useState([]);
@@ -20,7 +21,14 @@ function Products() {
     useEffect(() => {
         axios
             .get(`${BASE_URL}/products_full`)
-            .then(response => setProducts(response.data))
+            .then(response => {
+                const data = response?.data;
+                if (Array.isArray(data)) {
+                    setProducts(data)
+                } else {
+                    setProducts([]);
+                }
+            })
             .catch(error => console.error(error))
     }, [setProducts]);
 
@@ -104,7 +112,7 @@ function Products() {
                                 /></td>
                                 <td>
                                     <img
-                                        src="/src/images/delete.png"
+                                        src={deleteIcon}
                                         alt=""
                                         className={"icon clickable"}
                                         onClick={() => {

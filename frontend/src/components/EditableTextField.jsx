@@ -2,6 +2,9 @@ import {useState} from "react";
 import axios from "axios";
 
 import {BASE_URL} from "../config.js";
+import editIcon from "../images/edit.png";
+import checkIcon from "../images/check.png";
+import crossIcon from "../images/cross.png";
 
 function EditableTextField({text, additionalText, type, id, field, additionalData}) {
     const [editing, setEditing] = useState(false)
@@ -37,7 +40,8 @@ function EditableTextField({text, additionalText, type, id, field, additionalDat
                     <>
                         <p>{value} {additionalText}</p>
                         <img
-                            src="/src/images/edit.png"
+                            src={editIcon}
+                            alt="edit"
                             className={"clickable h-6 w-6 opacity-0 group-hover:opacity-100"}
                             onClick={() => {setEditing(true)}}>
                         </img>
@@ -52,12 +56,14 @@ function EditableTextField({text, additionalText, type, id, field, additionalDat
                         />
                         <img
                             className={"clickable h-7 w-7 -mr-2"}
-                            src="/src/images/check.png"
+                            src={checkIcon}
+                            alt="confirm"
                             onClick={() => handleConfirm()}
                         />
                         <img
                             className={"clickable h-7 w-7"}
-                            src="/src/images/cross.png"
+                            src={crossIcon}
+                            alt="cancel"
                             onClick={() => { setEditing(false) ; setValue(text) }}
                         />
                     </>

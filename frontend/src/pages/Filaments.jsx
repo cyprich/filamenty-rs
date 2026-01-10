@@ -14,7 +14,12 @@ function Filaments() {
         axios
             .get(`${BASE_URL}/filaments_full/`)
             .then((response) => {
-                setfilaments(response.data);
+                const data = response?.data;
+                if (Array.isArray(data)) {
+                    setfilaments(data)
+                } else {
+                    setfilaments([]);
+                }
             })
             .catch((error) => console.error(error));
     }, []);

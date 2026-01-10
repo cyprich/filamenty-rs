@@ -9,7 +9,14 @@ function DropdownProduct({value, idFilament, setIdProduct}) {
     useEffect(() => {
         axios
             .get(`${BASE_URL}/products_full`)
-            .then(response => setProducts(response.data))
+            .then(response => {
+                const data = response?.data;
+                if (Array.isArray(data)) {
+                    setProducts(data)
+                } else {
+                    setProducts([]);
+                }
+            })
     }, []);
 
     function handleChange(selectedItem) {

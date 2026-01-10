@@ -6,6 +6,7 @@ import DeleteConfirmation from "../components/DeleteConfirmation.jsx";
 import PlusInput from "../components/PlusInput.jsx";
 
 import {BASE_URL} from "../config.js";
+import deleteIcon from "../images/delete.png";
 
 function Materials() {
     const [materials, setMaterials] = useState([])
@@ -18,7 +19,14 @@ function Materials() {
     useEffect(() => {
         axios
             .get(`${BASE_URL}/materials`)
-            .then(response => setMaterials(response.data))
+            .then(response => {
+                const data = response?.data;
+                if (Array.isArray(data)) {
+                    setMaterials(data)
+                } else {
+                    setMaterials([]);
+                }
+            })
     }, []);
 
     return (
@@ -42,7 +50,7 @@ function Materials() {
                                 /></td>
                                 <td>
                                     <img
-                                        src="/src/images/delete.png"
+                                        src={deleteIcon}
                                         alt=""
                                         className={"icon clickable"}
                                         onClick={() => {

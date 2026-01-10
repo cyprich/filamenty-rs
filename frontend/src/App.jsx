@@ -11,7 +11,12 @@ import Vendors from "./pages/Vendors.jsx";
 import Materials from "./pages/Materials.jsx";
 import NewProduct from "./pages/NewProduct.jsx";
 
+import {BASE_URL} from "./config.js";
+
 function App() {
+
+    console.log("BASE_URL", BASE_URL);
+
     return (
         <Router>
             <Header/>

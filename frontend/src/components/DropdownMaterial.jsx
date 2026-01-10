@@ -9,7 +9,14 @@ function DropdownMaterial({value, idProduct, setIdMaterial}) {
     useEffect(() => {
         axios
             .get(`${BASE_URL}/materials`)
-            .then(response => setMaterials(response.data))
+            .then(response => {
+                const data = response?.data;
+                if (Array.isArray(data)) {
+                    setMaterials(data)
+                } else {
+                    setMaterials([]);
+                }
+            })
     }, []);
 
     function handleChange(selectedItem) {
@@ -48,5 +55,3 @@ function DropdownMaterial({value, idProduct, setIdMaterial}) {
 }
 
 export default DropdownMaterial
-
-
