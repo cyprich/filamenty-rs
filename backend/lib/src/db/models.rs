@@ -2,19 +2,19 @@
 // REGULAR STRUCTS //
 // //////////////////
 
-#[derive(Debug, sqlx::FromRow, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, sqlx::FromRow, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
 pub struct Vendor {
     pub id_vendor: i32,
     pub name_vendor: String,
 }
 
-#[derive(Debug, sqlx::FromRow, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, sqlx::FromRow, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
 pub struct Material {
     pub id_material: i32,
     pub name_material: String,
 }
 
-#[derive(Debug, sqlx::FromRow, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, sqlx::FromRow, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
 pub struct Product {
     pub id_product: i32,
     pub id_vendor: i32,
@@ -27,7 +27,7 @@ pub struct Product {
     pub temp_bed_max: Option<i32>,
 }
 
-#[derive(Debug, sqlx::FromRow, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, sqlx::FromRow, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
 pub struct Filament {
     pub id_filament: i32,
     pub id_product: i32,
@@ -46,7 +46,7 @@ pub struct Filament {
 // FULL STRUCTS //
 // ///////////////
 
-#[derive(Debug, sqlx::FromRow, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, sqlx::FromRow, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
 pub struct ProductFull {
     pub id_product: i32,
     pub name_product: String,
@@ -61,7 +61,7 @@ pub struct ProductFull {
     pub temp_bed_max: Option<i32>,
 }
 
-#[derive(Debug, sqlx::FromRow, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, sqlx::FromRow, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
 pub struct FilamentFull {
     pub id_filament: i32,
     pub id_product: i32,
@@ -90,17 +90,17 @@ pub struct FilamentFull {
 // NEW STRUCTS //
 // //////////////
 
-#[derive(serde::Deserialize)]
+#[derive(serde::Deserialize, utoipa::ToSchema)]
 pub struct NewVendor {
     pub name_vendor: String,
 }
 
-#[derive(serde::Deserialize)]
+#[derive(serde::Deserialize, utoipa::ToSchema)]
 pub struct NewMaterial {
     pub name_material: String,
 }
 
-#[derive(serde::Deserialize)]
+#[derive(serde::Deserialize, utoipa::ToSchema)]
 pub struct NewProduct {
     pub id_vendor: i32,
     pub id_material: i32,
@@ -112,7 +112,7 @@ pub struct NewProduct {
     pub temp_bed_max: Option<i32>,
 }
 
-#[derive(serde::Deserialize)]
+#[derive(serde::Deserialize, utoipa::ToSchema)]
 pub struct NewFilament {
     pub id_product: i32,
     pub price: f64,

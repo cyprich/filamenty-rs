@@ -10,7 +10,7 @@ use crate::endpoints::handle_type_result;
 #[post("/vendors")]
 async fn post_vendors(pool: web::Data<lib::Pool>, vendor: web::Json<NewVendor>) -> impl Responder {
     let result = lib::db::add_vendors(pool.get_ref(), vendor.into_inner()).await;
-    handle_type_result(result)
+    handle_type_result(result, crate::endpoints::TypeResultResponse::Created)
 }
 
 #[post("/materials")]
@@ -19,7 +19,7 @@ async fn post_materials(
     material: web::Json<NewMaterial>,
 ) -> impl Responder {
     let result = lib::db::add_materials(pool.get_ref(), material.into_inner()).await;
-    handle_type_result(result)
+    handle_type_result(result, crate::endpoints::TypeResultResponse::Created)
 }
 
 #[post("/products")]
@@ -28,7 +28,7 @@ async fn post_products(
     product: web::Json<NewProduct>,
 ) -> impl Responder {
     let result = lib::db::add_products(pool.get_ref(), product.into_inner()).await;
-    handle_type_result(result)
+    handle_type_result(result, crate::endpoints::TypeResultResponse::Created)
 }
 
 #[post("/filaments")]
@@ -37,12 +37,14 @@ async fn post_filaments(
     filament: web::Json<NewFilament>,
 ) -> impl Responder {
     let result = lib::db::add_filaments(pool.get_ref(), filament.into_inner()).await;
-    handle_type_result(result)
+    handle_type_result(result, crate::endpoints::TypeResultResponse::Created)
 }
 
 // https://github.com/actix/actix-web/blob/5c6a29f4/actix-multipart/README.md
-#[derive(Debug, MultipartForm)]
-struct ImageMultipartForm {
+// https://docs.rs/utoipa/latest/utoipa/derive.ToSchema.html
+#[derive(Debug, MultipartForm, utoipa::ToSchema)]
+pub struct ImageMultipartForm {
+    #[schema(value_type = String, format = Binary, content_media_type = "image/*")]
     file: TempFile,
 }
 
@@ -68,7 +70,7 @@ async fn post_images(MultipartForm(form): MultipartForm<ImageMultipartForm>) -> 
     let new_path = format!("images/uploads/{new_filename}");
 
     match fs::copy(old_path, new_path) {
-        Ok(_) => HttpResponse::Ok().json(format!("uploads/{}", new_filename)),
+        Ok(_) => HttpResponse::Created().json(format!("uploads/{}", new_filename)),
         Err(val) => HttpResponse::InternalServerError().json(val.to_string()),
     }
 }

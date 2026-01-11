@@ -2,8 +2,8 @@ use actix_web::{Responder, patch, web};
 
 use crate::endpoints::handle_general_result;
 
-#[derive(serde::Deserialize)]
-struct PatchRequestBody {
+#[derive(serde::Deserialize, utoipa::ToSchema)]
+pub struct PatchRequestBody {
     key: String,
     value: Option<String>,
 }

@@ -21,6 +21,7 @@ pub enum Error {
     DatabaseInvalidValue,
     NotFound,
     MigrationError,
+    ZeroRowsAffected,
 }
 
 impl std::fmt::Display for Error {
@@ -49,6 +50,12 @@ impl std::fmt::Display for Error {
             }
             Error::MigrationError => {
                 write!(f, "Error while running database migrations")
+            }
+            Error::ZeroRowsAffected => {
+                write!(
+                    f,
+                    "Nothing changed - either already present or wrong input value"
+                )
             }
         }
     }

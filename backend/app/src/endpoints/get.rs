@@ -13,60 +13,49 @@ pub async fn hello() -> impl Responder {
 #[get("/vendors")]
 pub async fn get_vendors(pool: web::Data<lib::Pool>) -> impl Responder {
     let result = lib::db::get_vendors(pool.get_ref()).await;
-    handle_type_result(result)
+    handle_type_result(result, crate::endpoints::TypeResultResponse::Ok)
 }
 
 #[get("/materials")]
 pub async fn get_materials(pool: web::Data<lib::Pool>) -> impl Responder {
     let result = lib::db::get_materials(pool.get_ref()).await;
-    handle_type_result(result)
-}
-
-#[derive(serde::Deserialize)]
-pub struct ProductQuery {
-    id_vendor: Option<i32>,
+    handle_type_result(result, crate::endpoints::TypeResultResponse::Ok)
 }
 
 #[get("/products")]
-pub async fn get_products(
-    pool: web::Data<lib::Pool>,
-    query: web::Query<ProductQuery>,
-) -> impl Responder {
-    let result = lib::db::get_products(pool.get_ref(), query.id_vendor).await;
-    handle_type_result(result)
+pub async fn get_products(pool: web::Data<lib::Pool>) -> impl Responder {
+    let result = lib::db::get_products(pool.get_ref()).await;
+    handle_type_result(result, crate::endpoints::TypeResultResponse::Ok)
 }
 
 #[get("/products_full")]
-pub async fn get_products_full(
-    pool: web::Data<lib::Pool>,
-    query: web::Query<ProductQuery>,
-) -> impl Responder {
-    let result = lib::db::get_products_full(pool.get_ref(), query.id_vendor).await;
-    handle_type_result(result)
+pub async fn get_products_full(pool: web::Data<lib::Pool>) -> impl Responder {
+    let result = lib::db::get_products_full(pool.get_ref()).await;
+    handle_type_result(result, crate::endpoints::TypeResultResponse::Ok)
 }
 
 #[get("/filaments")]
 pub async fn get_filaments(pool: web::Data<lib::Pool>) -> impl Responder {
     let result = lib::db::get_filaments(pool.get_ref()).await;
-    handle_type_result(result)
+    handle_type_result(result, crate::endpoints::TypeResultResponse::Ok)
 }
 
 #[get("/filaments_full")]
 pub async fn get_filaments_full(pool: web::Data<lib::Pool>) -> impl Responder {
     let result = lib::db::get_filaments_full(pool.get_ref()).await;
-    handle_type_result(result)
+    handle_type_result(result, crate::endpoints::TypeResultResponse::Ok)
 }
 
 #[get("/filaments/{id}")]
 pub async fn get_filaments_by_id(pool: web::Data<lib::Pool>, id: web::Path<i32>) -> impl Responder {
     let result = lib::db::get_filaments_by_id(pool.get_ref(), id.into_inner()).await;
-    handle_type_result(result)
+    handle_type_result(result, crate::endpoints::TypeResultResponse::Ok)
 }
 
 #[get("/last_update")]
 pub async fn get_last_update(pool: web::Data<lib::Pool>) -> impl Responder {
     let result = lib::db::get_last_update(pool.get_ref()).await;
-    handle_type_result(result)
+    handle_type_result(result, crate::endpoints::TypeResultResponse::Ok)
 }
 
 #[get("/images/{path:.*}")]

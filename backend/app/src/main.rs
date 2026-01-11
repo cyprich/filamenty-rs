@@ -2,9 +2,13 @@ use std::env;
 
 use actix_cors::Cors;
 use actix_web::{App, HttpServer, middleware::NormalizePath, web};
+use utoipa::OpenApi;
+use utoipa_swagger_ui::SwaggerUi;
 
 pub mod endpoints;
-use crate::endpoints::*;
+use crate::{api_docs::ApiDoc, endpoints::*};
+
+mod api_docs;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -26,12 +30,11 @@ async fn main() -> std::io::Result<()> {
         .parse::<u16>()
         .expect("Couldn't convert 'BACKEND_PORT' to u16");
 
+    let openapi = ApiDoc::openapi();
+
     // run the server
     HttpServer::new(move || {
         App::new()
-            .wrap(NormalizePath::new(
-                actix_web::middleware::TrailingSlash::Trim,
-            ))
             .wrap(
                 Cors::default()
                     .allow_any_origin()
@@ -41,6 +44,9 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(pool.clone()))
             .service(
                 web::scope("/api/v2")
+                    .wrap(NormalizePath::new(
+                        actix_web::middleware::TrailingSlash::Trim,
+                    ))
                     .service(hello)
                     .service(get_vendors)
                     .service(get_materials)
@@ -64,6 +70,9 @@ async fn main() -> std::io::Result<()> {
                     .service(patch_products_by_id)
                     .service(patch_filaments_by_id)
                     .service(images),
+            )
+            .service(
+                SwaggerUi::new("/swagger-ui/{_:.*}").url("/api-docs/openapi.json", openapi.clone()),
             )
     })
     .bind(("0.0.0.0", port))?
