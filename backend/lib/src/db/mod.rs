@@ -99,16 +99,14 @@ pub async fn get_filaments(pool: &Pool) -> Result<Vec<Filament>, crate::Error> {
 }
 
 pub async fn get_products_full(pool: &Pool) -> Result<Vec<ProductFull>, crate::Error> {
-    let sql = r#"
+    let query = r#"
 select * from product
 join vendor using (id_vendor) 
 join material using (id_material)
 order by id_product
     "#;
 
-    let sql = format!("{sql} where id_vendor = $1");
-
-    sqlx::query_as::<_, ProductFull>(&sql)
+    sqlx::query_as::<_, ProductFull>(query)
         .fetch_all(pool)
         .await
         .map_err(|_| crate::Error::DatabaseError)

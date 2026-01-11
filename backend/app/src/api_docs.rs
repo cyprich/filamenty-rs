@@ -36,41 +36,41 @@ pub struct ApiDoc;
 // ///////////////
 
 #[utoipa::path(get, path="/api/v2", responses(
-    (status=200, description = "Returns Hello World string")
+    (status=200, description="Request successful")
 ))]
 #[allow(dead_code)]
 fn hello() {}
 
 #[utoipa::path(get, path="/api/v2/vendors", responses(
-    (status=200, body = Vendor),
+    (status=200, description="Request successful", body = Vendor),
     (status=500, description="Error between backend and database"),
 ))]
 #[allow(dead_code)]
 fn get_vendors() {}
 
 #[utoipa::path(get, path="/api/v2/materials", responses(
-    (status=200, body = Material),
+    (status=200, description="Request successful", body = Material),
     (status=500, description="Error between backend and database"),
 ))]
 #[allow(dead_code)]
 fn get_materials() {}
 
 #[utoipa::path(get, path="/api/v2/products", responses(
-    (status=200, body = Product),
+    (status=200, description="Request successful", body = Product),
     (status=500, description="Error between backend and database"),
 ))]
 #[allow(dead_code)]
 fn get_products() {}
 
 #[utoipa::path(get, path="/api/v2/products_full", responses(
-    (status=200, body = ProductFull),
+    (status=200, description="Request successful", body = ProductFull),
     (status=500, description="Error between backend and database"),
 ))]
 #[allow(dead_code)]
 fn get_products_full() {}
 
 #[utoipa::path(get, path="/api/v2/filaments", responses(
-    (status=200, body = Filament),
+    (status=200, description="Request successful", body = Filament),
     (status=500, description="Error between backend and database"),
 ))]
 #[allow(dead_code)]
@@ -81,7 +81,7 @@ fn get_filaments() {}
     path="/api/v2/filaments/{id}", 
     params(("id" = i32, Path, description="ID of filament")),
     responses(
-        (status=200, body = FilamentFull),
+        (status=200, description="Request successful", body = FilamentFull),
         (status=404, description = "Filament not found"),
         (status=500, description="Error between backend and database"),
     )
@@ -90,14 +90,14 @@ fn get_filaments() {}
 fn get_filaments_by_id() {}
 
 #[utoipa::path(get, path="/api/v2/filaments_full", responses(
-    (status=200, body = FilamentFull),
+    (status=200, description="Request successful", body = FilamentFull),
     (status=500, description="Error between backend and database"),
 ))]
 #[allow(dead_code)]
 fn get_filaments_full() {}
 
 #[utoipa::path(get, path="/api/v2/last_update", responses(
-    (status=200, body = NaiveDateTime),
+    (status=200, description="Request successful", body = NaiveDateTime),
     (status=500, description="Error between backend and database"),
 ))]
 #[allow(dead_code)]
@@ -108,7 +108,7 @@ fn get_last_update() {}
     path="/api/v2/images/{filename}", 
     params(("filename" = String, Path, description = "Filename of image to get"),),
     responses(
-        (status=200, body = String, content_type="image/*"),
+        (status=200, description="Request successful", body = String, content_type="image/*"),
         (status=500, description="Error between backend and database"),
     )
 )]
@@ -124,7 +124,7 @@ fn get_images() {}
     path="/api/v2/vendors", 
     request_body = NewVendor,
     responses(
-        (status=201, body = Vendor),
+        (status=201, description="Successfully created", body = Vendor),
         (status=500, description="Error between backend and database"),
     )
 )]
@@ -136,7 +136,7 @@ fn post_vendors() {}
     path="/api/v2/materials", 
     request_body = NewMaterial,
     responses(
-        (status=201, body = Material),
+        (status=201, description="Successfully created", body = Material),
         (status=500, description="Error between backend and database"),
     )
 )]
@@ -148,7 +148,7 @@ fn post_materials() {}
     path="/api/v2/products", 
     request_body = NewProduct,
     responses(
-        (status=201, body = Product),
+        (status=201, description="Successfully created", body = Product),
         (status=500, description="Error between backend and database"),
     )
 )]
@@ -160,7 +160,7 @@ fn post_products() {}
     path="/api/v2/filaments", 
     request_body = NewFilament,
     responses(
-        (status=201, body = Filament),
+        (status=201, description="Successfully created", body = Filament),
         (status=500, description="Error between backend and database"),
     )
 )]
@@ -172,7 +172,7 @@ fn post_filaments() {}
     path="/api/v2/images", 
     request_body = ImageMultipartForm,
     responses(
-        (status=201, body = String),
+        (status=201, description="Successfully created", body = String),
         (status=400, description="Unallowed 'content-type'"),
         (status=500, description="Error between backend and database"),
     )
@@ -190,7 +190,7 @@ fn post_images() {}
     params(("id" = String, Path),),
     request_body = PatchRequestBody,
     responses(
-        (status=200),
+        (status=200, description="Request successful"),
         (status=400, description="Invalid database field name"),
         (status=500, description="Error between backend and database"),
     )
@@ -204,7 +204,7 @@ fn patch_vendors_by_id() {}
     params(("id" = String, Path),),
     request_body = PatchRequestBody,
     responses(
-        (status=200),
+        (status=200, description="Request successful"),
         (status=400, description="Invalid database field name"),
         (status=500, description="Error between backend and database"),
     )
@@ -218,7 +218,7 @@ fn patch_materials_by_id() {}
     params(("id" = String, Path),),
     request_body = PatchRequestBody,
     responses(
-        (status=200),
+        (status=200, description="Request successful"),
         (status=400, description="Invalid database field name"),
         (status=500, description="Error between backend and database"),
     )
@@ -232,7 +232,7 @@ fn patch_products_by_id() {}
     params(("id" = String, Path),),
     request_body = PatchRequestBody,
     responses(
-        (status=200),
+        (status=200, description="Request successful"),
         (status=400, description="Invalid database field name"),
         (status=500, description="Error between backend and database"),
     )
@@ -249,7 +249,7 @@ fn patch_filaments_by_id() {}
     path="/api/v2/vendors/{id}", 
     params(("id" = String, Path),),
     responses(
-        (status=200),
+        (status=200, description="Request successful"),
         (status=404, description="Zero rows affected"),
         (status=500, description="Error between backend and database"),
     )
@@ -262,7 +262,7 @@ fn delete_vendors_by_id() {}
     path="/api/v2/materials/{id}", 
     params(("id" = String, Path),),
     responses(
-        (status=200),
+        (status=200, description="Request successful"),
         (status=404, description="Zero rows affected"),
         (status=500, description="Error between backend and database"),
     )
@@ -275,7 +275,7 @@ fn delete_materials_by_id() {}
     path="/api/v2/products/{id}", 
     params(("id" = String, Path),),
     responses(
-        (status=200),
+        (status=200, description="Request successful"),
         (status=404, description="Zero rows affected"),
         (status=500, description="Error between backend and database"),
     )
@@ -288,7 +288,7 @@ fn delete_products_by_id() {}
     path="/api/v2/filaments/{id}", 
     params(("id" = String, Path),),
     responses(
-        (status=200),
+        (status=200, description="Request successful"),
         (status=404, description="Zero rows affected"),
         (status=500, description="Error between backend and database"),
     )
