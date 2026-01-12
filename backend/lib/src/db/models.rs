@@ -90,17 +90,17 @@ pub struct FilamentFull {
 // NEW STRUCTS //
 // //////////////
 
-#[derive(serde::Deserialize, utoipa::ToSchema)]
+#[derive(Debug, serde::Deserialize, utoipa::ToSchema)]
 pub struct NewVendor {
     pub name_vendor: String,
 }
 
-#[derive(serde::Deserialize, utoipa::ToSchema)]
+#[derive(Debug, serde::Deserialize, utoipa::ToSchema)]
 pub struct NewMaterial {
     pub name_material: String,
 }
 
-#[derive(serde::Deserialize, utoipa::ToSchema)]
+#[derive(Debug, serde::Deserialize, utoipa::ToSchema)]
 pub struct NewProduct {
     pub id_vendor: i32,
     pub id_material: i32,
@@ -112,7 +112,7 @@ pub struct NewProduct {
     pub temp_bed_max: Option<i32>,
 }
 
-#[derive(serde::Deserialize, utoipa::ToSchema)]
+#[derive(Debug, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
 pub struct NewFilament {
     pub id_product: i32,
     pub price: f64,
