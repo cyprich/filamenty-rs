@@ -1,0 +1,82 @@
+@startuml
+
+' skinparam packageStyle rectangle
+set separator ::
+
+package lib::db::models {
+    struct Vendor {
+        +id_vendor: i32
+        +name_vendor: String
+    }
+
+    struct Material {
+        +id_material: i32 
+        +name_material: String
+    }
+
+    struct Product {
+        +id_product: i32 
+        +id_vendor: i32 
+        +id_material: i32 
+        +name_product: String 
+        +diameter: f64 
+        +temp_min: i32 
+        +temp_max: Option<i32> 
+        +temp_bed_min: i32 
+        +temp_bed_max: Option<i32> 
+    }
+
+    struct Filament {
+        +id_filament: i32 
+        +id_product: i32 
+        +price: f64 
+        +color_name: String 
+        +color_hex: String 
+        +original_weight: i32 
+        +netto_weight: i32 
+        +spool_weight: i32 
+        +last_update: chrono::NaiveDateTime
+        +image_path: Option<String>
+        +qr_path: Option<String>
+    }
+
+    struct ProductFull {
+        +id_product: i32 
+        +name_product: String 
+        +id_vendor: i32 
+        +name_vendor: String
+        +id_material: i32 
+        +name_product: String 
+        +diameter: f64 
+        +temp_min: i32 
+        +temp_max: Option<i32> 
+        +temp_bed_min: i32 
+        +temp_bed_max: Option<i32> 
+    }
+
+    struct FilamentFull {
+        +id_filament: i32 
+        +id_product: i32 
+        +name_product: String 
+        +id_vendor: i32 
+        +name_vendor: String
+        +id_material: i32 
+        +name_product: String 
+        +diameter: f64 
+        +temp_min: i32 
+        +temp_max: Option<i32> 
+        +temp_bed_min: i32 
+        +temp_bed_max: Option<i32> 
+        +price: f64 
+        +color_name: String 
+        +color_hex: String 
+        +original_weight: i32 
+        +netto_weight: i32 
+        +spool_weight: i32 
+        +last_update: chrono::NaiveDateTime
+        +image_path: Option<String>
+        +qr_path: Option<String>
+    }
+}
+
+@enduml

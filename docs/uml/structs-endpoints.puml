@@ -1,0 +1,44 @@
+@startuml
+
+package app::endpoints {
+
+    package patch {
+        struct PatchRequestBody {
+            key: String
+            value: Option<String>
+        }
+    }
+
+    package post {
+        struct ImageMultipartForm {
+            image: TempFile
+        }
+
+        struct FilamentMultipartForm {
+            image: TempFile
+            json: Json<NewFilament> 
+        }
+    }
+}
+
+package "actix_multipart::form" {
+    package "tempfile" {
+        struct "TempFile"
+    }
+    package "json" {
+        struct "Json"
+    }
+
+}
+
+package "lib::db::models" {
+    struct NewFilament
+}
+
+
+ImageMultipartForm ..> "TempFile" : uses
+FilamentMultipartForm ..> "TempFile" : uses
+FilamentMultipartForm ..> "Json" : uses
+FilamentMultipartForm ..> "NewFilament" : uses
+
+@enduml

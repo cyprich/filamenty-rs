@@ -1,0 +1,75 @@
+@startuml
+
+' Domains
+annotation "Domain: grams" as domaingrams {
+  as integer
+  check (VALUE >= 0)
+}
+
+annotation "Domain: temperature_celsius" as domaintemp {
+  as integer
+  check (VALUE >= 0)
+}
+
+entity vendor {
+  * id_vendor : serial <<PK>>
+  --
+  * name_vendor : varchar(50) 
+  --
+  <<unique>> name_vendor
+}
+
+entity material {
+  * id_material : serial <<PK>>
+  --
+  * name_material : varchar(50)
+  --
+  <<unique>> name_material
+}
+
+entity product {
+  * id_product : serial <<PK>>
+  --
+  * id_vendor : int <<FK>>
+  * id_material : int <<FK>>
+  * name_product : varchar(50)
+    diameter : float default (1.75)
+  * temp_min : temperature_celsius
+    temp_max : temperature_celsius
+  * temp_bed_min : temperature_celsius
+    temp_bed_max : temperature_celsius
+  --
+    <<unique>> (id_vendor, id_material, name_product, diameter)
+}
+
+entity filament {
+  * id_filament : serial <<PK>>
+  --
+  * id_product : int <<FK>>
+  * price : float
+  * color_name : varchar(50)
+  * color_hex : char(7)
+    original_weight : grams default (1000)
+  * netto_weight : grams
+  * spool_weight : grams
+  * last_update : timestamp default (now)
+    image_path : text
+    qr_path : text
+}
+
+legend bottom left
+| **Značka** | **Vysvetlenie**            |
+| ⬤         | Povinné pole (not null)    |
+| <<PK>>     | Primárny kľúč              |
+| <<FK>>     | Cudzí kľúč                 |
+| <<unique>> | Položka musí byť jedinečná |
+endlegend
+
+vendor ||--o{ product
+material ||--o{ product
+product ||--o{ filament
+
+domaingrams -[hidden]down- domaintemp
+
+
+@enduml

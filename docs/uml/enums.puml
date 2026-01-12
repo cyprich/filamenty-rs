@@ -1,0 +1,20 @@
+@startuml 
+
+enum lib::Error {
+    DatabaseError,
+    DatabaseReferentialIntegrity,
+    DatabaseDuplicate,
+    DatabaseRelationNotExist,
+    DatabaseNullConstraint,
+    DatabaseInvalidValue,
+    NotFound,
+    MigrationError,
+    ZeroRowsAffected,
+}
+
+enum app::enpoints::TypeResultResponse {
+    Ok, 
+    Created
+}
+
+@enduml

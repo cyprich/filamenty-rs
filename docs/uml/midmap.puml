@@ -1,0 +1,42 @@
+@startmindmap
+
++[#LightBlue] filamenty-rs 
+-- frontend
+---_ ...
+-- docs
+-- .git
+--_ docker-compose.yaml
+--_ example.env
+
+++[#LightSeaGreen] backend (workspace)
+
++++[#LightGreen] app (binary crate)
+++++_ <b>Cargo.toml</b>
+++++ src 
++++++_ main.rs 
++++++_ api_docs.rs 
++++++ endpoints
+++++++_ mod.rs 
+++++++_ get.rs 
+++++++_ post.rs 
+++++++_ patch.rs 
+++++++_ delete.rs 
+
++++[#LightGreen] lib (library crate)
+++++_ <b>Cargo.toml</b>
+++++ src
++++++_ lib.rs
++++++ db
+++++++_ mod.rs
+++++++_ models.rs
++++++ qr
+++++++_ mod.rs
++++++ uuid
+++++++_ mod.rs
+
++++ migrations
+++++_ init.sql
++++_ <b>Cargo.toml</b>
++++_ Dockerfile
+
+@endmindmap

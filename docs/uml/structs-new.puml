@@ -1,0 +1,40 @@
+@startuml
+
+' skinparam packageStyle rectangle
+set separator ::
+
+package lib::db::models {
+    struct NewVendor {
+        +name_vendor: String
+    }
+
+    struct NewMaterial {
+        +name_material: String
+    }
+
+    struct NewProduct {
+        +id_vendor: i32 
+        +id_material: i32 
+        +name_product: String 
+        +diameter: f64 
+        +temp_min: i32 
+        +temp_max: Option<i32> 
+        +temp_bed_min: i32 
+        +temp_bed_max: Option<i32> 
+    }
+
+    struct NewFilament {
+        +id_product: i32 
+        +price: f64 
+        +color_name: String 
+        +color_hex: String 
+        +original_weight: i32 
+        +netto_weight: i32 
+        +spool_weight: i32 
+        +last_update: chrono::NaiveDateTime
+        +image_path: Option<String>
+        +qr_path: Option<String>
+    }
+}
+
+@enduml

@@ -14,6 +14,7 @@ services:
     build: ./backend
     container_name: filamenty_rs_backend
     restart: unless-stopped
+    network_mode: host
     environment:
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       HOSTNAME: http://${HOST}

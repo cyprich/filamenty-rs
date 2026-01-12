@@ -1,0 +1,61 @@
+@startuml
+right to left direction
+
+' skinparam namespaceSeparator "::"
+
+package "filamenty-rs" {
+    package "frontend" {}
+    package "backend" <<workspace>> {
+        annotation "Cargo.toml" as WorkspaceCargoToml {}
+
+        package "app" <<binary crate>> #DFE7FD {
+            annotation "Cargo.toml" as CargoToml {}
+            package "src" {
+                annotation "main.rs" as Main {}
+                annotation "api_docs.rs" as ApiDocs {}
+
+                package "endpoints" {
+                    annotation "mod.rs" as Mod {}
+                    annotation "get.rs" as Delete {}
+                    annotation "post.rs" as Post {}
+                    annotation "patch.rs" as Patch {}
+                    annotation "delete.rs" as Delete {}
+                }
+            }
+        }
+        package "lib" <<library crate>> #E2ECE9 {
+            annotation "Cargo.toml" as CargoToml {}
+            package "src" {
+                annotation "lib.rs" as Lib {}
+                package "db" {
+                    annotation "mod.rs" as Mod {}
+                    annotation "moddels.rs" as Models {}
+                }
+                package "qr" {
+                    annotation "mod.rs" as Mod {}
+                }
+                package "uuid" {
+                    annotation "mod.rs" as Mod {}
+                }
+            }
+
+        }
+        package "migrations" <<folder>> {
+            annotation "init.sql" as Sql {}
+        }
+    }
+}
+
+' organization 
+' WorkspaceCargoToml .[hidden]down. "app"
+' "app".[hidden]left. "lib"
+' Main .[hidden]down. ApiDocs
+' "db".[hidden]down. "qr"
+' "qr".[hidden]left. "uuid"
+' "migrations".[hidden]up. "lib"
+
+
+
+
+
+@enduml
