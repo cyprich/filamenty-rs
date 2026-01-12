@@ -48,7 +48,7 @@ function EditableImage({defaultSrc, idFilament, setImagePath}) {
                         e.currentTarget.onerror = null;
                         e.currentTarget.src = missingFilament
                     }}
-                    className={"clickable-small border custom-border max-w-128 max-h-128 object-contain p-8"}
+                    className={"clickable-small border custom-border max-w-128 max-h-128 object-contain p-8 portrait:max-w-[80vw]"}
                 />
             </label>
             <input

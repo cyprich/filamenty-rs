@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 
 import axios from "axios";
 import FilamentLabel from "../components/FilamentLabel.jsx";
-import PageHeading from "../components/PageHeading.jsx";
+import PageTitle from "../components/PageTitle.jsx";
 
 import {BASE_URL} from "../config.js";
 
@@ -25,8 +25,8 @@ function Labels() {
 
     return (
         <div className={"main main-spacing labels items-center portrait:gap-8 portrait:!px-8"}>
-            <PageHeading title={"Štítky"} number={filaments.length}/>
-            <div className={"flex flex-wrap gap-8"}>
+            <PageTitle title={"Štítky"} number={filaments.length}/>
+            <div className={"flex flex-wrap gap-8 portrait:flex-col portrait:items-center"}>
                 {filaments.map((filament, key) => {
                     return <div key={key}>
                         <FilamentLabel filament={filament}/>

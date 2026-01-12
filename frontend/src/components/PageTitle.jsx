@@ -4,13 +4,13 @@ function getText(number) {
     return "položiek";
 }
 
-function PageHeading({title, number}) {
+function PageTitle({title, number}) {
     return (
-        <div className={"self-start"}>
+        <div className={"self-start no-print"}>
             <h1>{title}</h1>
             { number != undefined && <p>{number} {getText(number)}</p> }
         </div>
     )
 }
 
-export default PageHeading
+export default PageTitle

@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import PageHeading from "../components/PageHeading.jsx";
+import PageTitle from "../components/PageTitle.jsx";
 import EditableTextField from "../components/EditableTextField.jsx";
 import DeleteConfirmation from "../components/DeleteConfirmation.jsx";
 import PlusInput from "../components/PlusInput.jsx";
@@ -31,7 +31,7 @@ function Materials() {
 
     return (
         <div className={"main main-spacing"}>
-            <PageHeading title={"Materiály"} number={materials.length}/>
+            <PageTitle title={"Materiály"} number={materials.length}/>
             <div className={"bigtable"}>
                 <table>
                     <thead><tr>

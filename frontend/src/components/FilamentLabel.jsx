@@ -8,7 +8,7 @@ function FilamentLabel({filament, key}) {
 
     return (
         <div
-            className={"no-break flex justify-between items-center gap-8 w-max p-8 border portrait:gap-5 portrait:p-4 relative"}
+            className={"no-break flex justify-between items-center gap-8 w-max p-8 border relative portrait:scale-90"}
             key={key}>
             <div className={"flex flex-col gap-3 portrait:gap-1.5"}>
                 <div className={"flex gap-3 items-center"}>

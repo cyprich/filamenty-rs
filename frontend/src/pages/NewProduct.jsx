@@ -1,4 +1,4 @@
-import PageHeading from "../components/PageHeading.jsx";
+import PageTitle from "../components/PageTitle.jsx";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import DropdownVendor from "../components/DropdownVendor.jsx";
@@ -59,9 +59,9 @@ function NewProduct() {
     }
 
     return (
-        <div className={"main main-spacing add-product"}>
-            <PageHeading title={"Nový produkt"}/>
-            <table>
+        <div className={"main main-spacing add-product portrait:flex-col portrait:items-center"}>
+            <PageTitle title={"Nový produkt"}/>
+            <table className={"new-product-table"}>
                 <tbody>
                 <tr>
                     <td>Názov</td>

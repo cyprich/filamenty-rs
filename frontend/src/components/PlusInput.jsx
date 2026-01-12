@@ -18,7 +18,7 @@ function PlusInput({fieldName, endpoint}) {
     }
 
     return (
-        <div className={"flex gap-2 ml-2"}>
+        <div className={"flex gap-2 ml-2 portrait:flex-col"}>
             <input
                 type="text"
                 placeholder={"Pridať..."}

@@ -24,10 +24,14 @@ button {
     @apply bg-zinc-200 px-4 py-2;
 }
 
-header p {
-    @apply text-zinc-50 font-medium decoration-0 p-2 cursor-pointer select-none
-}
 
+
+header {
+    @apply bg-zinc-950 py-5 ;
+    p {
+        @apply text-zinc-50 font-medium decoration-0 p-2 cursor-pointer select-none justify-self-center;
+    }
+}
 footer {
     h3, p, a {
         @apply text-zinc-400 decoration-0 font-light portrait:text-sm;
@@ -93,8 +97,20 @@ div.custom-border {
         @apply bg-zinc-200;
     }
 
+    tr {
+        @apply portrait:flex portrait:flex-col portrait:items-start portrait:gap-2 portrait:-mx-36;
+    }
+
     td {
-        @apply px-4 py-4 portrait:px-2;
+        @apply px-4 py-4 portrait:px-2 portrait:w-full;
+    }
+
+    td:first-child {
+        @apply pr-3 portrait:pr-0 portrait:pb-1;
+    }
+
+    td:last-child {
+        /*@apply portrait:-pl-0;*/
     }
 }
 
@@ -140,10 +156,8 @@ div.custom-border {
     }
 }
 
-.products-table .temp-td {
-    &>div {
-        @apply flex gap-1.5 p-2 items-center;
-    }
+.products-table .temp-td > div {
+    @apply flex gap-1.5 p-2 items-center;
 }
 
 .labels table td {
@@ -152,6 +166,7 @@ div.custom-border {
 
 .bigtable {
     @apply rounded-2xl border border-black p-4;
+    @apply portrait:border-none portrait:p-2 portrait:overflow-auto;
 
     table {
         @apply table-auto w-full;
@@ -176,6 +191,12 @@ div.custom-border {
             @apply text-center flex justify-center items-center align-middle;
             /*@apply text-center;*/
         }
+    }
+}
+
+.new-product-table {
+    td:has(input) {
+        @apply portrait:flex portrait:flex-col;
     }
 }
 

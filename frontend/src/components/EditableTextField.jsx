@@ -38,18 +38,18 @@ function EditableTextField({text, additionalText, type, id, field, additionalDat
             {
                 !editing ? (
                     <>
-                        <p>{value} {additionalText}</p>
+                        <p className={"whitespace-nowrap"}>{value} {additionalText}</p>
                         <img
                             src={editIcon}
                             alt="edit"
-                            className={"clickable h-6 w-6 opacity-0 group-hover:opacity-100"}
+                            className={"clickable h-6 w-6 opacity-0 group-hover:opacity-100 portrait:opacity-100"}
                             onClick={() => {setEditing(true)}}>
                         </img>
                     </>
                 ) : (
                     <>
                         <input
-                            className={"border rounded-xl px-2 py-1"}
+                            className={"border rounded-xl px-2 py-1 portrait:max-w-48"}
                             type="text"
                             value={value}
                             onChange={(e) => setValue(e.target.value)}

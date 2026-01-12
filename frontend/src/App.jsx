@@ -11,8 +11,6 @@ import Vendors from "./pages/Vendors.jsx";
 import Materials from "./pages/Materials.jsx";
 import NewProduct from "./pages/NewProduct.jsx";
 
-import {BASE_URL} from "./config.js";
-
 function App() {
     return (
         <Router>

@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import PageHeading from "../components/PageHeading.jsx";
+import PageTitle from "../components/PageTitle.jsx";
 import EditableTextField from "../components/EditableTextField.jsx";
 import PlusButton from "../components/PlusButton.jsx";
 import DropdownVendor from "../components/DropdownVendor.jsx";
@@ -34,7 +34,7 @@ function Products() {
 
     return (
         <div className={"main main-spacing"}>
-            <PageHeading title={"Produkty"} number={products.length}/>
+            <PageTitle title={"Produkty"} number={products.length}/>
             <div className={"overflow-hidden w-full bigtable"}>
                 <table className={"products-table"}>
                     <thead>

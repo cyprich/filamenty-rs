@@ -46,10 +46,10 @@ function Filament() {
                         />
                         <div className={"portrait:text-right"}>
                             <div className={"flex flex-col portrait:justify-end"}>
-                                <h2 className={"!text-3xl font-bold portrait:!text-2xl"}>
+                                <h2 className={"!text-3xl font-bold portrait:!text-lg portrait:-ml-8"}>
                                     <DropdownProduct value={filament.id_product} idFilament={filament.id_filament}/>
                                 </h2>
-                                <div className={"flex items-center gap-2 pl-2"}>
+                                <div className={"flex items-center gap-2 pl-2 portrait:-ml-8"}>
                                     <FilamentEditableColor idFilament={filament.id_filament} colorHex={filament.color_hex}/>
                                     <div className={"font-medium text-xl"}>
                                         <EditableTextField
@@ -195,7 +195,7 @@ function Filament() {
                                     </tr>
                                     </tbody>
                                     <tfoot>
-                                    <tr className={"portrait:hidden"}>
+                                    <tr className={"portrait:!hidden"}>
                                         <td
                                             className={
                                                 "flex mt-4 justify-center items-center cursor-pointer border rounded-lg border-red-600 hover:bg-red-600/10 select-none"

@@ -5,7 +5,7 @@ import axios from "axios";
 
 import DropdownProduct from "../components/DropdownProduct.jsx";
 import EditableImage from "../components/EditableImage.jsx";
-import PageHeading from "../components/PageHeading.jsx";
+import PageTitle from "../components/PageTitle.jsx";
 
 import {BASE_URL} from "../config.js";
 
@@ -61,12 +61,12 @@ function NewFilament() {
     }
 
     return (
-        <div className={"main main-spacing add-filament flex flex-col"}>
-            <PageHeading title={"Nový filament"}/>
-            <div className={"flex gap-8"}>
+        <div className={"main main-spacing add-filament flex flex-col portrait:items-center"}>
+            <PageTitle title={"Nový filament"}/>
+            <div className={"flex gap-8 portrait:flex-col portrait:items-center"}>
                 <EditableImage setImagePath={setImagePath}/>
-                <div className={"flex flex-col justify-between"}>
-                    <table>
+                <div className={"flex flex-col justify-between portrait:gap-4"}>
+                    <table className={"portrait:p-4"}>
                         <tbody>
                         <tr>
                             <td>Produkt</td>

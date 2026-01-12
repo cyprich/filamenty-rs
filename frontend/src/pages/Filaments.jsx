@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 
 import FilamentCard from "../components/FilamentCard.jsx";
-import PageHeading from "../components/PageHeading.jsx";
+import PageTitle from "../components/PageTitle.jsx";
 import PlusButton from "../components/PlusButton.jsx";
 
 import {BASE_URL} from "../config.js";
@@ -26,7 +26,7 @@ function Filaments() {
 
     return (
         <div className={"main main-spacing"}>
-            <PageHeading title={"Filamenty"} number={filaments.length}/>
+            <PageTitle title={"Filamenty"} number={filaments.length}/>
             <div className={"grid grid-cols-5 gap-8 portrait:grid-cols-1 "}>
                 {filaments.map((item, key) => {
                     return (

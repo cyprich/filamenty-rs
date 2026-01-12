@@ -1,4 +1,4 @@
-import PageHeading from "../components/PageHeading.jsx";
+import PageTitle from "../components/PageTitle.jsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import EditableTextField from "../components/EditableTextField.jsx";
@@ -31,7 +31,7 @@ function Vendors() {
 
     return (
         <div className={"main main-spacing"}>
-            <PageHeading title={"Výrobcovia"} number={vendors.length}/>
+            <PageTitle title={"Výrobcovia"} number={vendors.length}/>
             <div className={"bigtable"}>
                 <table>
                     <thead>
