@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import axios from "axios";
 
 import {BASE_URL} from "../config.js";
@@ -14,7 +14,7 @@ function EditableImage({defaultSrc, idFilament, setImagePath}) {
         setImagePreview(URL.createObjectURL(selectedFile) ?? missingFilament);
 
         const formData = new FormData();
-        formData.append("file", selectedFile);
+        formData.append("image", selectedFile);
 
         axios
             .post(`${BASE_URL}/images`, formData)
