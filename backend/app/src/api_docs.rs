@@ -1,7 +1,7 @@
 use lib::db::models::*;
 use utoipa::OpenApi;
 
-use crate::endpoints::{ImageMultipartForm, PatchRequestBody};
+use crate::endpoints::{FilamentMultipartForm, ImageMultipartForm, PatchRequestBody};
 
 #[derive(OpenApi)]
 #[openapi(paths(
@@ -20,6 +20,7 @@ use crate::endpoints::{ImageMultipartForm, PatchRequestBody};
     post_products,
     post_filaments,
     post_images,
+    post_filaments_with_image,
     patch_vendors_by_id,
     patch_materials_by_id,
     patch_products_by_id,
@@ -124,7 +125,7 @@ fn get_images() {}
     path="/api/v2/vendors", 
     request_body = NewVendor,
     responses(
-        (status=201, description="Successfully created", body = Vendor),
+        (status=201, description="Successfully created, returns Vendor in JSON", body = Vendor),
         (status=500, description="Error between backend and database"),
     )
 )]
@@ -136,7 +137,7 @@ fn post_vendors() {}
     path="/api/v2/materials", 
     request_body = NewMaterial,
     responses(
-        (status=201, description="Successfully created", body = Material),
+        (status=201, description="Successfully created, returns Material in JSON", body = Material),
         (status=500, description="Error between backend and database"),
     )
 )]
@@ -148,7 +149,7 @@ fn post_materials() {}
     path="/api/v2/products", 
     request_body = NewProduct,
     responses(
-        (status=201, description="Successfully created", body = Product),
+        (status=201, description="Successfully created, returns Product in JSON", body = Product),
         (status=500, description="Error between backend and database"),
     )
 )]
@@ -160,7 +161,7 @@ fn post_products() {}
     path="/api/v2/filaments", 
     request_body = NewFilament,
     responses(
-        (status=201, description="Successfully created", body = Filament),
+        (status=201, description="Successfully created, returns Filament in JSON", body = Filament),
         (status=500, description="Error between backend and database"),
     )
 )]
@@ -172,13 +173,26 @@ fn post_filaments() {}
     path="/api/v2/images", 
     request_body = ImageMultipartForm,
     responses(
-        (status=201, description="Successfully created", body = String),
+        (status=201, description="Successfully created, returns filename of image", body = String),
         (status=400, description="Unallowed 'content-type'"),
         (status=500, description="Error between backend and database"),
     )
 )]
 #[allow(dead_code)]
 fn post_images() {}
+
+#[utoipa::path(
+    post, 
+    path="/api/v2/filaments-with-image", 
+    request_body = FilamentMultipartForm,
+    responses(
+        (status=201, description="Successfully created, returns filament in JSON", body = Filament),
+        (status=400, description="Unallowed 'content-type'"),
+        (status=500, description="Error between backend and database"),
+    )
+)]
+#[allow(dead_code)]
+fn post_filaments_with_image() {}
 
 // /////////////////
 // PATCH REQUESTS //

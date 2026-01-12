@@ -77,7 +77,7 @@ fn save_tempfile_image(tempfile: &TempFile) -> Result<String, String> {
 
 #[derive(Debug, MultipartForm, utoipa::ToSchema)]
 pub struct ImageMultipartForm {
-    #[schema(value_type = String, format = Binary, content_media_type = "image/*")]
+    #[schema(value_type = String, format = Binary, content_media_type = "image/png, image/jpg, image/webp")]
     image: TempFile,
 }
 
@@ -100,9 +100,11 @@ async fn post_images(MultipartForm(form): MultipartForm<ImageMultipartForm>) -> 
     }
 }
 
-#[derive(Debug, MultipartForm)]
+#[derive(Debug, MultipartForm, utoipa::ToSchema)]
 pub struct FilamentMultipartForm {
+    #[schema(value_type = String, format = Binary, content_media_type = "image/png, image/jpg, image/webp")]
     image: TempFile,
+    #[schema(value_type = String, format = "Json", content_media_type = "application/json")]
     json: Json<NewFilament>,
 }
 
