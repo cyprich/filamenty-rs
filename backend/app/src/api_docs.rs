@@ -1,7 +1,7 @@
 use lib::db::models::*;
 use utoipa::OpenApi;
 
-use crate::endpoints::{FilamentMultipartForm, ImageMultipartForm, PatchRequestBody};
+use crate::endpoints::{FilamentMultipartForm,  PatchRequestBody};
 
 #[derive(OpenApi)]
 #[openapi(paths(
@@ -171,7 +171,10 @@ fn post_filaments() {}
 #[utoipa::path(
     post, 
     path="/api/v2/images", 
-    request_body = ImageMultipartForm,
+    request_body(
+        content = FilamentMultipartForm,
+        content_type = "multipart/form-data"
+    ),
     responses(
         (status=201, description="Successfully created, returns filename of image", body = String),
         (status=400, description="Unallowed 'content-type'"),
@@ -184,7 +187,10 @@ fn post_images() {}
 #[utoipa::path(
     post, 
     path="/api/v2/filaments-with-image", 
-    request_body = FilamentMultipartForm,
+    request_body(
+        content = FilamentMultipartForm,
+        content_type = "multipart/form-data"
+    ),
     responses(
         (status=201, description="Successfully created, returns filament in JSON", body = Filament),
         (status=400, description="Unallowed 'content-type'"),
